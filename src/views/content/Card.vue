@@ -1,0 +1,65 @@
+<template>
+  <div class="Container card__box position-relative" :style="{'background': `url('${info.Picture.PictureUrl1}') no-repeat center center`}">
+      <div class="card__text position-absolute bottom-0">
+          <h4 class="card__text_name">{{info.Name}}</h4>
+          <div class="card__text__location">
+              <i class="bi bi-geo-alt"></i>
+              <span class="ms-1">{{info.City}}</span>
+          </div>
+      </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.card {
+    &__box {
+        width: 245px;
+        height: 280px;
+        border-radius: 15px;
+    }
+    &__text {
+        color: $Off_White;
+        text-align: left;
+        padding:  0 24px 20px 20px;
+        &__location {
+            font-size: $Text_XSmall;
+        }
+    }
+}
+</style>
+
+<script>
+export default {
+  name: "Card",
+  data() {
+    return {
+      info: {
+        ID: "C1_379000000A_000001",
+        Name: "大稻埕碼頭_大稻埕碼頭貨櫃市集",
+        DescriptionDetail:
+          "大稻埕原是平埔族的居住地，因萬華（艋舺）同安人發生激烈的械鬥，造成族人移至大稻埕定居，開始大稻埕淡水河旁商店和房屋的興建，淡水港開放後，大稻埕在劉銘傳的治理下成為臺北城最繁華的物資集散中心，當中以茶葉、布料為主要貿易交易，當時的延平北路及貴德街一帶便是商業活動的重心，也讓大稻埕早年的歷史多采多姿、令人回味。",
+        Phone: "886-2-27208889",
+        ZipCode: "103",
+        OpenTime:
+          "平常日以團體預約包船為主，例假日行駛固定航次，請洽詢各船公司。強烈季風、漲退潮水位差影響航行及靠泊安全，當日實際航班得由現場公告或網站預告調整。",
+        Picture: {
+          PictureUrl1: "https://www.travel.taipei/image/182690",
+          PictureDescription1: "大稻埕碼頭_大稻埕碼頭貨櫃市集",
+        },
+        Position: {
+          PositionLon: 121.50760650634766,
+          PositionLat: 25.056400299072266,
+          GeoHash: "wsqqscrhh",
+        },
+        Class1: "遊憩類",
+        Level: "非古蹟",
+        WebsiteUrl: "https://www.riverfun.net/wharf",
+        ParkingPosition: {},
+        City: "臺北市",
+        SrcUpdateTime: "2021-11-13T01:11:41+08:00",
+        UpdateTime: "2021-11-13T01:40:14+08:00",
+      },
+    };
+  },
+};
+</script>
