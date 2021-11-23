@@ -1,8 +1,8 @@
 <template>
   <div class="style__box">
     <div class="blue-outer position-relative">
-      <div class="circle circle__orange1"></div>
-      <div class="circle circle__orange2"></div>
+      <div class="circle__orange circle__orange1"></div>
+      <div class="circle__orange circle__orange2"></div>
       <div class="container footer__container d-flex">
         <div class="footer__logo">
           <svg
@@ -155,17 +155,17 @@
   background-color: $Primary;
   border-radius: 50%;
 }
-.circle {
+.circle__orange {
   background-color: $Secondary;
   border-radius: 50%;
   position: absolute;
-  &__orange1 {
+  &1 {
     width: 400px;
     height: 400px;
     top: 200px;
     left: 210px;
   }
-  &__orange2 {
+  &2 {
     width: 200px;
     height: 200px;
     top: 140px;
