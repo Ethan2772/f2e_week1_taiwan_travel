@@ -2,8 +2,8 @@
   <div>
     <Header class="mb-5">
       <template #city>
-        <div class="chinese">{{ selectCity.ch.substr(0, 2) }}</div>
-        <div class="english">{{ selectCity.en }}</div>
+        <div class="chinese text-white">{{ selectCity.ch.substr(0, 2) }}</div>
+        <div class="english text-white">{{ selectCity.en }}</div>
       </template>
       <template #selector>
         <div class="input__group d-flex">
@@ -26,7 +26,7 @@
             </select>
           </div>
           <div class="button-search d-flex align-items-center">
-            <i class="bi bi-search font-weight-bold mx-auto"></i>
+            <i class="bi bi-search font-weight-bold text-white mx-auto"></i>
           </div>
         </div>
       </template>
@@ -36,12 +36,14 @@
         class="card-list d-flex justify-content-center flex-wrap mx-auto"
         style="width: 1100px"
       >
-        <Card
+        <router-link
           v-for="item in data"
           :key="item.ID"
-          :item="item"
+          :to="{ name: 'Tourism', params: { id: item.ID } }"
           class="mt-4 me-4"
-        />
+        >
+          <Card :item="item" /> </router-link
+        >>
       </div>
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
@@ -129,7 +131,7 @@
     border: 0;
     background-color: transparent;
     &::focus {
-      box-shadow: 0
+      box-shadow: 0;
     }
   }
 }
@@ -137,8 +139,8 @@
   position: absolute;
   top: 8px;
   display: block;
-  width: 0!important;
-  height: 0!important;
+  width: 0 !important;
+  height: 0 !important;
   border-style: solid;
   &-left {
     border-width: 6px 6px 6px 0;
