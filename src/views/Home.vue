@@ -32,18 +32,15 @@
       </template>
     </Header>
     <div class="container">
-      <div
-        class="card-list d-flex justify-content-center flex-wrap mx-auto"
-        style="width: 1100px"
-      >
+      <div class="row mx-lg-5">
         <router-link
           v-for="item in data"
           :key="item.ID"
           :to="{ name: 'Tourism', params: { id: item.ID } }"
-          class="mt-4 me-4"
+          class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-2"
         >
-          <Card :item="item" /> </router-link
-        >>
+          <Card :item="item" />
+        </router-link>
       </div>
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">

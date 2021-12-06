@@ -1,19 +1,35 @@
 <template>
   <div>
     <Header class="mb-5" />
-    <div class="container">
+    <div class="container mb-5">
       <div class="article row justify-content-center mb-5">
-        <div class="col-lg-10">
-          <div class="article__title" style="height: 90px">
-            <h1>{{ item.Name }}</h1>
+        <div class="col-xl-11 col-lg-9">
+          <div
+            class="article__title d-flex align-items-center mb-5"
+            style="height: 90px"
+          >
+            <router-link :to="{ name: 'Home'}" class="h-100">
+              <div
+                ref="Previous_Page"
+                class="btn btn-previous-page d-flex align-items-center h-100 p-0"
+                @mouseenter="hover()"
+                @mouseleave="hover()"
+              >
+                <i
+                  class="bi bi-chevron-left"
+                  style="font-size: 20px; font-weight: 700"
+                ></i>
+              </div>
+            </router-link>
+            <h1 class="ms-3">{{ item.Name }}</h1>
           </div>
           <div class="row">
-            <div class="col-lg-9">
+            <div class="col-lg-7">
               <div class="article__text">
                 <p>{{ item.Description }}</p>
               </div>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-5">
               <div class="article__info">
                 <div class="shadow-sm p-3 mb-3 bg-white rounded d-flex">
                   <i class="bi bi-geo-alt-fill d-block me-3"></i>
@@ -32,12 +48,41 @@
           </div>
         </div>
       </div>
+      <div class="nearby__list">
+        <div
+          class="
+            nearby__list__header
+            d-flex
+            align-items-center
+            justify-content-between
+          "
+        >
+          <h3>附近美食</h3>
+          <div class="btn btn-explore-more">
+            更多美食<i class="bi bi-caret-right-fill"></i>
+          </div>
+        </div>
+        <div class="nearby__list__body row">
+          <router-link
+            v-for="item in nearbyItems"
+            :key="item.ID"
+            :to="{ name: 'Tourism', params: { id: item.ID } }"
+            class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-2"
+          >
+            <Card :item="item" />
+          </router-link>
+        </div>
+      </div>
     </div>
     <Footer />
   </div>
 </template>
 
 <style lang="scss" scoped>
+.active {
+  background-color: $Title_Active;
+  color: $Off_White;
+}
 .article {
   color: $Title_Active;
   text-align: left;
@@ -51,46 +96,97 @@
     line-height: 36px;
   }
 }
+.nearby__list__header {
+  color: $Title_Active;
+  h3 {
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+  }
+  .btn-explore-more {
+    font-size: 20px;
+    font-weight: bold;
+  }
+}
 </style>
 
 <script>
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
+import Card from "@/components/Card.vue";
+import jsSHA from "jssha";
 
 export default {
   name: "Tourism",
   components: {
     Header,
     Footer,
+    Card,
   },
   data() {
     return {
-      item: {
-        ID: "C3_315081600H_000019",
-        RestaurantID: "C3_315081600H_000019",
-        Name: "田媽媽長盈海味屋",
-        RestaurantName: "田媽媽長盈海味屋",
-        Description:
-          "一個沿海的偏鄉小鎮的個體養殖戶，一個無毒養殖的堅持理念一段細漢留下來的在地心故鄉情，一份感動一份真心，只為了遠道而來的客人吃的安心。即使在無毒養殖的過程中經歷多次的失敗，在研發過程中遇到更多的挫折。但創立的初衷告訴我要堅持下去，有些時候淚水更甚於汗水。也因為有了這份堅持，陸陸續續獲得中央與地方政府的重視，因為一尾產銷履歷及輸出歐盟雙認證的虱目魚一夜干經評鑑獲農委會田媽媽的認可這一切的付出都值得了。也因為大家的肯定更增加了我們的信念與堅持相信好品質的美味能與大家分享，如此這份動力來源才能讓長盈海味屋繼續堅持下去雖然我們不會做生意，但我們的用心是大家看得到的，也希望在偏遠的海邊能留下當初懷念的滋味。 長盈海味屋的榮譽榜★榮獲104年水產養殖界的最高榮譽「產銷履歷達人」。(南市唯二入圍)★榮獲104年水產精品「海宴獎」的肯定。(南市唯一入圍)★2014 全國農委會田媽媽十大招...",
-        Address: "臺南市727北門區慈安里三寮灣484號",
-        ZipCode: "727",
-        Phone: "886-9-17549736",
-        OpenTime: "上午08:00到晚上19:00",
-        Picture: {
-          PictureUrl1: "https://swcoast-nsa.travel/image/325/640x480",
-          PictureDescription1: "田媽媽長盈海味屋外觀",
-        },
-        Position: {
-          PositionLon: 120.11064147949219,
-          PositionLat: 23.23879051208496,
-          GeoHash: "wsjkjnmzu",
-        },
-        Class: "其他",
-        City: "臺南市",
-        SrcUpdateTime: "2021-11-17T01:15:48+08:00",
-        UpdateTime: "2021-11-17T02:03:50+08:00",
-      },
+      item: {},
+      nearbyItems: {},
     };
+  },
+  created() {
+    const ID = this.$route.params.id;
+    const type = this.$route.params.id.substr(0, 2);
+    const getCatrgory = (key) => {
+      switch (key) {
+        case "C1":
+          return "ScenicSpot";
+        case "C2":
+          return "Activity";
+        case "C3":
+          return "Restaurant";
+        case "C4":
+          return "Hotel";
+      }
+    };
+
+    const url = `https://ptx.transportdata.tw/MOTC/v2/Tourism/${getCatrgory(
+      type
+    )}`;
+    //get item
+    fetch(`${url}?$filter=contains(ID%2c'${ID}')&$format=JSON`)
+      .then((response) => response.json())
+      .then((data) => data[0])
+      .then((item) => {
+        this.item = item;
+        //get nearby items
+        fetch(
+          `${url}?$select=ID%2CNAME%2CAddress%2CPicture&$top=5&$spatialFilter=nearby(${item.Position.PositionLat}%2C%20${item.Position.PositionLon}%2C%205000)&$format=JSON`
+        )
+          .then((response) => response.json())
+          .then((data) => (this.nearbyItems = data.slice(1)));
+      });
+  },
+  methods: {
+    GetAuthorizationHeader() {
+      const AppID = "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF";
+      const AppKey = "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF";
+
+      const GMTString = new Date().toGMTString();
+      const ShaObj = new jsSHA("SHA-1", "TEXT");
+      ShaObj.setHMACKey(AppKey, "TEXT");
+      ShaObj.update("x-date: " + GMTString);
+      const HMAC = ShaObj.getHMAC("B64");
+      const Authorization =
+        "hmac username='" +
+        AppID +
+        "', algorithm='hmac-sha1', headers='x-date', signature='" +
+        HMAC +
+        "'";
+
+      return {
+        Authorization: Authorization,
+        "X-Date": GMTString /*,'Accept-Encoding': 'gzip'*/,
+      }; //如果要將js運行在伺服器，可額外加入 'Accept-Encoding': 'gzip'，要求壓縮以減少網路傳輸資料量
+    },
+    hover() {
+      this.$refs.Previous_Page.classList.toggle("active");
+    },
   },
 };
 </script>
