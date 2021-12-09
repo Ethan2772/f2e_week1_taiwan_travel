@@ -1,6 +1,6 @@
 <template>
   <div
-    class="Container card__box position-relative"
+    class="Container card__box position-relative zoom-in"
     :style="{
       background: `url('${item.Picture.PictureUrl1}') no-repeat center center`,
     }"
@@ -23,8 +23,12 @@
     width: 245px;
     height: 280px;
     border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    background-color: #fff;
   }
   &__text {
+    z-index: 1;
     color: $Off_White;
     text-align: left;
     padding: 0 24px 20px 20px;
@@ -35,6 +39,26 @@
     }
     &__location {
       font-size: $Text_XSmall;
+    }
+  }
+}
+.zoom-in {
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: inherit;
+    background-size: cover;
+    transform-origin: center;
+    transition: transform .4s ease-in-out;
+  }
+  &:focus,
+  &:hover {
+    &::after {
+      transform: scale(1.1);
     }
   }
 }

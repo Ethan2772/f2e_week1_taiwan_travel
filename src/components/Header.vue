@@ -1,5 +1,5 @@
 <template>
-  <div class="header-box position-relative" :style ="{backgroundImage:`url( ${require('../assets/'+imgPath)} )`}">
+  <div class="header-box position-relative" :style ="{backgroundImage:`url( ${require('@/assets/'+imgPath)} )`}">
     <div class="circle__orange circle__orange1">
       <div class="logo">
         <img src="../assets/lets_go.png" width="120" height="90" alt="Let's go">
@@ -86,6 +86,7 @@ export default {
       width: 508px;
       height: 120px;
       top: 140px;
+      cursor: default;
       .chinese {
         font-size: 96px;
         font-weight: bold;

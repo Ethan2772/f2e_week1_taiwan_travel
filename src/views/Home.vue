@@ -26,7 +26,7 @@
             </select>
           </div>
           <div class="button-search d-flex align-items-center">
-            <i class="bi bi-search font-weight-bold text-white mx-auto"></i>
+            <i class="bi bi-search text-white mx-auto"></i>
           </div>
         </div>
       </template>
@@ -37,7 +37,7 @@
           v-for="item in data"
           :key="item.ID"
           :to="{ name: 'Tourism', params: { id: item.ID } }"
-          class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-2"
+          class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4"
         >
           <Card :item="item" />
         </router-link>
@@ -82,9 +82,12 @@
     line-height: 125%;
     padding: 12px 52px 12px 24px;
     cursor: pointer;
+    // appearance: none; /* Remove default arrow */
     -webkit-appearance: none;
     -moz-appearance: none;
-    // appearance: none; /* Remove default arrow */
+    background: url("../assets/arrow_down.png") no-repeat 80% center transparent;
+    background-size: 12px 6px;
+    background-color: #fff;
     &:after {
       content: "";
       position: absolute;
@@ -96,6 +99,12 @@
       border-right: 2px solid black;
       border-bottom: 2px solid black;
     }
+    &:-ms-expand { 
+      display: none; 
+    }
+    &:focus-visible {
+      outline: none;
+    }
   }
 }
 .button-search {
@@ -104,6 +113,7 @@
   height: 49px;
   border-radius: 40px;
   background-color: $Primary;
+  font-size: $Text_Large;
 }
 .pagination {
   margin-top: 40px;
