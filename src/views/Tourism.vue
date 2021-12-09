@@ -8,12 +8,15 @@
             class="article__title d-flex align-items-center mb-5"
             style="height: 90px"
           >
-            <router-link :to="{ name: 'Home'}" class="h-100">
+            <router-link :to="{ name: 'Home' }" class="h-100">
               <div
-                ref="Previous_Page"
-                class="btn btn-previous-page d-flex align-items-center h-100 p-0"
-                @mouseenter="hover()"
-                @mouseleave="hover()"
+                class="
+                  btn btn-previous-page
+                  d-flex
+                  align-items-center
+                  h-100
+                  p-0
+                "
               >
                 <i
                   class="bi bi-chevron-left"
@@ -79,7 +82,7 @@
 </template>
 
 <style lang="scss" scoped>
-.active {
+.btn-previous-page:hover {
   background-color: $Title_Active;
   color: $Off_White;
 }
@@ -130,37 +133,12 @@ export default {
     };
   },
   created() {
-    const ID = this.$route.params.id;
-    const type = this.$route.params.id.substr(0, 2);
-    const getCatrgory = (key) => {
-      switch (key) {
-        case "C1":
-          return "ScenicSpot";
-        case "C2":
-          return "Activity";
-        case "C3":
-          return "Restaurant";
-        case "C4":
-          return "Hotel";
-      }
-    };
-
-    const url = `https://ptx.transportdata.tw/MOTC/v2/Tourism/${getCatrgory(
-      type
-    )}`;
-    //get item
-    fetch(`${url}?$filter=contains(ID%2c'${ID}')&$format=JSON`)
-      .then((response) => response.json())
-      .then((data) => data[0])
-      .then((item) => {
-        this.item = item;
-        //get nearby items
-        fetch(
-          `${url}?$select=ID%2CNAME%2CAddress%2CPicture&$top=5&$spatialFilter=nearby(${item.Position.PositionLat}%2C%20${item.Position.PositionLon}%2C%205000)&$format=JSON`
-        )
-          .then((response) => response.json())
-          .then((data) => (this.nearbyItems = data.slice(1)));
-      });
+    this.getItem();
+  },
+  watch: {
+    $route() {
+      this.getItem();
+    },
   },
   methods: {
     GetAuthorizationHeader() {
@@ -184,8 +162,39 @@ export default {
         "X-Date": GMTString /*,'Accept-Encoding': 'gzip'*/,
       }; //如果要將js運行在伺服器，可額外加入 'Accept-Encoding': 'gzip'，要求壓縮以減少網路傳輸資料量
     },
-    hover() {
-      this.$refs.Previous_Page.classList.toggle("active");
+    getItem() {
+      const ID = this.$route.params.id;
+      const type = this.$route.params.id.substr(0, 2);
+
+      const url = `https://ptx.transportdata.tw/MOTC/v2/Tourism/${this.getCategory(type)}`;
+      //get item
+      fetch(`${url}?$filter=ID eq '${ID}'&$format=JSON`)
+        .then((response) => response.json())
+        .then((data) => {
+          this.item = data[0];
+          //get nearby items
+          fetch(
+            `${url}?$select=ID, NAME, City, Address, Picture&$top=5&$spatialFilter=nearby(${data[0].Position.PositionLat}, ${data[0].Position.PositionLon}, 5000)&$format=JSON`
+          )
+            .then((response) => response.json())
+            .then((data) => {
+              let selfIndex = data.findIndex((e) => e.ID === this.item.ID);
+              data.splice(selfIndex, 1);
+              this.nearbyItems = data;
+            });
+        });
+    },
+    getCategory(type) {
+      switch (type) {
+        case "C1":
+          return "ScenicSpot";
+        case "C2":
+          return "Activity";
+        case "C3":
+          return "Restaurant";
+        case "C4":
+          return "Hotel";
+      }
     },
   },
 };
