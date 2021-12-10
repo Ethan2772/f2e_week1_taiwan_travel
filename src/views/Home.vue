@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header class="mb-5">
+    <Header>
       <template #city>
         <div class="chinese text-white">{{ selectCity.ch.substr(0, 2) }}</div>
         <div class="english text-white">{{ selectCity.en }}</div>
@@ -8,20 +8,36 @@
       <template #selector>
         <div class="input__group d-flex">
           <div class="input__select">
-            <select name="cities" id="cities" class="custom-selector shadow">
-              <option
-                v-for="city in cities"
-                :key="city.ch"
-                :value="{ ch: city.ch, en: city.en }"
+            <select
+              v-model="selectCity"
+              name="cities"
+              id="cities"
+              class="custom-selector shadow"
+            >
+              <optgroup
+                v-for="group in cities"
+                :key="group.label"
+                :label="group.label"
               >
-                {{ city.ch }}
-              </option>
+                <option
+                  v-for="city in group.options"
+                  :key="city.ch"
+                  :value="city"
+                >
+                  {{ city.ch }}
+                </option>
+              </optgroup>
             </select>
           </div>
           <div class="input__select">
-            <select name="types" id="types" class="custom-selector shadow">
-              <option v-for="type in types" :key="type" :value="type">
-                {{ type }}
+            <select
+              v-model="selectType"
+              name="types"
+              id="types"
+              class="custom-selector shadow"
+            >
+              <option v-for="type in types" :key="type.en" :value="type">
+                {{ type.ch }}
               </option>
             </select>
           </div>
@@ -39,7 +55,7 @@
           :to="{ name: 'Tourism', params: { id: item.ID } }"
           class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4"
         >
-          <Card :item="item" />
+          <Card :item="item" class="mx-auto" />
         </router-link>
       </div>
       <nav aria-label="Page navigation example">
@@ -99,8 +115,8 @@
       border-right: 2px solid black;
       border-bottom: 2px solid black;
     }
-    &:-ms-expand { 
-      display: none; 
+    &:-ms-expand {
+      display: none;
     }
     &:focus-visible {
       outline: none;
@@ -113,7 +129,7 @@
   height: 49px;
   border-radius: 40px;
   background-color: $Primary;
-  font-size: $Text_Large;
+  font-size: 22px;
 }
 .pagination {
   margin-top: 40px;
@@ -177,44 +193,55 @@ export default {
   },
   data() {
     return {
-      selectCity: {
-        ch: "台南",
-        en: "TAINAN",
-      },
+      selectCity: { ch: "台南市", en: "Tainan", value: "Tainan" },
+      selectType: { ch: "美食", en: "Restaurant" },
       cities: [
-        { ch: "基隆市", en: "Keelung" },
-        { ch: "台北市", en: "Taipei" },
-        { ch: "新北市", en: "New Taipei" },
-        { ch: "桃園縣", en: "Taoyuan" },
-        { ch: "新竹市", en: "Hsinchu" },
-        { ch: "新竹縣", en: "Hsinchu" },
-        { ch: "苗栗縣", en: "Miaoli" },
-        { ch: "台中市", en: "Taichung" },
-        { ch: "彰化縣", en: "Changhua" },
-        { ch: "南投縣", en: "Nantou" },
-        { ch: "雲林縣", en: "Yunlin" },
-        { ch: "嘉義市", en: "Chiayi" },
-        { ch: "嘉義縣", en: "Chiayi" },
-        { ch: "台南市", en: "Tainan" },
-        { ch: "高雄市", en: "Kaohsiung" },
-        { ch: "屏東縣", en: "Pingtung" },
-        { ch: "台東縣", en: "Taitung" },
-        { ch: "花蓮縣", en: "Hualien" },
-        { ch: "宜蘭縣", en: "Yilan" },
-        { ch: "澎湖縣", en: "Penghu" },
-        { ch: "金門縣", en: "Kinmen" },
-        { ch: "連江縣", en: "Lienchiang" },
-      ],
-      types: ["景點", "美食", "旅宿", "活動"],
         {
+          label: "北部",
+          options: [
+            { ch: "台北市", en: "Taipei", value: "Taipei" },
+            { ch: "新北市", en: "New Taipei", value: "NewTaipei" },
+            { ch: "基隆市", en: "Keelung", value: "Keelung" },
+            { ch: "宜蘭縣", en: "Yilan", value: "YilanCounty" },
+            { ch: "桃園縣", en: "Taoyuan", value: "Taoyuan" },
+            { ch: "新竹縣", en: "Hsinchu", value: "HsinchuCounty" },
+            { ch: "新竹市", en: "Hsinchu", value: "Hsinchu" },
+          ],
         },
         {
+          label: "中部",
+          options: [
+            { ch: "苗栗縣", en: "Miaoli", value: "MiaoliCounty" },
+            { ch: "台中市", en: "Taichung", value: "Taichung" },
+            { ch: "彰化縣", en: "Changhua", value: "ChanghuaCounty" },
+            { ch: "南投縣", en: "Nantou", value: "NantouCounty" },
+            { ch: "雲林縣", en: "Yunlin", value: "YunlinCounty" },
+          ],
         },
         {
+          label: "南部",
+          options: [
+            { ch: "嘉義縣", en: "Chiayi", value: "ChiayiCounty" },
+            { ch: "嘉義市", en: "Chiayi", value: "Chiayi" },
+            { ch: "台南市", en: "Tainan", value: "Tainan" },
+            { ch: "高雄市", en: "Kaohsiung", value: "Kaohsiung" },
+            { ch: "屏東縣", en: "Pingtung", value: "PingtungCounty" },
+          ],
         },
         {
+          label: "東部",
+          options: [
+            { ch: "花蓮縣", en: "Hualien", value: "HualienCounty" },
+            { ch: "台東縣", en: "Taitung", value: "TaitungCounty" },
+          ],
         },
         {
+          label: "離島",
+          options: [
+            { ch: "澎湖縣", en: "Penghu", value: "PenghuCounty" },
+            { ch: "金門縣", en: "Kinmen", value: "KinmenCounty" },
+            { ch: "連江縣", en: "Lienchiang", value: "LienchiangCounty" },
+          ],
         },
       ],
       types: [

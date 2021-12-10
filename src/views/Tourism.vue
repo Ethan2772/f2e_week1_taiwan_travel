@@ -34,15 +34,24 @@
             </div>
             <div class="col-lg-5">
               <div class="article__info">
-                <div class="shadow-sm p-3 mb-3 bg-white rounded d-flex">
+                <div
+                  class="shadow-sm p-3 mb-3 bg-white rounded d-flex"
+                  :class="{ 'd-none': !item.Address }"
+                >
                   <i class="bi bi-geo-alt-fill d-block me-3"></i>
                   {{ item.Address }}
                 </div>
-                <div class="shadow-sm p-3 mb-3 bg-white rounded d-flex">
+                <div
+                  class="shadow-sm p-3 mb-3 bg-white rounded d-flex"
+                  :class="{ 'd-none': !item.Phone }"
+                >
                   <i class="bi bi-telephone-fill d-block me-3"></i>
-                  {{ item.Phone }}
+                  {{ formatNumber }}
                 </div>
-                <div class="shadow-sm p-3 mb-3 bg-white rounded d-flex">
+                <div
+                  class="shadow-sm p-3 mb-3 bg-white rounded d-flex"
+                  :class="{ 'd-none': !item.OpenTime }"
+                >
                   <i class="bi bi-clock-fill d-block me-3"></i>
                   {{ item.OpenTime }}
                 </div>
@@ -51,7 +60,7 @@
           </div>
         </div>
       </div>
-      <div class="nearby__list">
+      <div v-show="nearbyItems.length" class="nearby__list">
         <div
           class="
             nearby__list__header
@@ -138,6 +147,13 @@ export default {
   watch: {
     $route() {
       this.getItem();
+    },
+  },
+  computed: {
+    formatNumber() {
+      let phone = this.item.Phone;
+      if (!phone) return "";
+      return phone.replace(/886-/, "0");
     },
   },
   methods: {

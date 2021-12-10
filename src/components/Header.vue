@@ -39,6 +39,7 @@ export default {
 .header-box {
   background-size: cover;
   height: 400px;
+  margin-bottom: 102px;
   .circle__orange {
     position: absolute;
     background-color: $Secondary;
@@ -90,23 +91,14 @@ export default {
       .chinese {
         font-size: 96px;
         font-weight: bold;
-        text-align: left;
-        white-space: nowrap;
-        letter-spacing: 316px;
       }
       .english {
-        width: 196px;
-        height: 40px;
-        line-height: 125%;
         font-size: 32px;
         letter-spacing: 0.4em;
-        position: absolute;
-        top: 52px;
-        left: 156px;
+        margin-right: -0.4em;
       }
     }
     &__selector {
-      width: 365px;
       height: 49px;
       bottom: -25px;
     }

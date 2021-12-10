@@ -2,17 +2,15 @@
   <div
     class="Container card__box position-relative zoom-in"
     :style="{
-      background: `url('${item.Picture.PictureUrl1}') no-repeat center center`,
+      background: `url('${item.Picture.PictureUrl1}') #e0e0e0 no-repeat center center`,
     }"
+    :title="item.Picture.PictureDescription1"
   >
     <div class="card__text position-absolute bottom-0">
       <h4 class="card__text__name text-truncate">{{ item.Name }}</h4>
-      <div class="card__text__location">
-        <i class="bi bi-geo-alt"></i>
-        <span class="ms-1">{{ item.City }}</span>
-        <i class="bi bi-dot"></i>
-        <span>{{ item.Address.substr(6, 3) }}</span>
-      </div>
+      <span class="card__text__location d-block text-truncate"
+        ><i class="bi bi-geo-alt mx-1" />{{ item.Address }}</span
+      >
     </div>
   </div>
 </template>
@@ -25,18 +23,13 @@
     border-radius: 15px;
     position: relative;
     overflow: hidden;
-    background-color: #fff;
   }
   &__text {
+    width: 245px;
     z-index: 1;
     color: $Off_White;
     text-align: left;
     padding: 0 24px 20px 20px;
-    &__name {
-      width: 200px;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-    }
     &__location {
       font-size: $Text_XSmall;
     }
@@ -51,9 +44,8 @@
     bottom: 0;
     left: 0;
     background: inherit;
-    background-size: cover;
     transform-origin: center;
-    transition: transform .4s ease-in-out;
+    transition: transform 0.4s ease-in-out;
   }
   &:focus,
   &:hover {
