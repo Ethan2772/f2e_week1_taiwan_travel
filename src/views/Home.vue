@@ -253,6 +253,13 @@ export default {
       data: [],
     };
   },
+  created() {
+    let searchHistory = JSON.parse(sessionStorage.getItem("F2E_Travel_Search"));
+    if (searchHistory) {
+      this.selectCity = searchHistory.city;
+      this.selectType = searchHistory.type;
+    }
+  },
   mounted() {
     this.getData();
   },
@@ -295,6 +302,13 @@ export default {
           (element.innerHTML = this.selectCity.ch.substr(index, 1))
       );
       document.querySelector(".english").innerHTML = this.selectCity.en;
+
+      //Store search setting
+      let searchHistory = {
+        city: this.selectCity,
+        type: this.selectType,
+      }
+      sessionStorage.setItem("F2E_Travel_Search", JSON.stringify(searchHistory));
     },
   },
 };
