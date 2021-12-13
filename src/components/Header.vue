@@ -9,11 +9,14 @@
       <i class="bi bi-flag"></i>
       <div class="circle__red">{{ saveItems }}</div>
     </div>
-    <div class="slot slot__city">
-      <slot name="city" />
+    <div class="slot slot__middle">
+      <slot name="middle" />
     </div>
-    <div class="slot slot__selector">
-      <slot name="selector" />
+    <div class="slot slot__bottomCenter">
+      <slot name="bottomCenter" />
+    </div>
+    <div class="slot slot__bottomRight">
+      <slot name="bottomRight" />
     </div>
   </div>
 </template>
@@ -81,24 +84,22 @@ export default {
   }
   .slot {
     position: absolute;
-    left: calc(50% + 15px);
-    transform: translateX(-50%);
-    &__city {
+    &__middle {
+      left: calc(50% + 15px);
+      transform: translateX(-50%);
       width: 508px;
       height: 120px;
       top: 140px;
-      cursor: default;
-      .chinese {
-        font-size: 96px;
-        font-weight: bold;
-      }
-      .english {
-        font-size: 32px;
-        letter-spacing: 0.4em;
-        margin-right: -0.4em;
-      }
     }
-    &__selector {
+    &__bottomCenter {
+      left: calc(50% + 15px);
+      transform: translateX(-50%);
+      height: 49px;
+      bottom: -25px;
+    }
+    &__bottomRight {
+      left: calc(85% + 15px);
+      transform: translateX(-50%);
       height: 49px;
       bottom: -25px;
     }

@@ -1,11 +1,14 @@
 <template>
   <div>
     <Header>
-      <template #city>
-        <div class="chinese text-white">{{ selectCity.ch.substr(0, 2) }}</div>
-        <div class="english text-white">{{ selectCity.en }}</div>
+      <template #middle>
+        <div class="title d-flex justify-content-between align-items-center">
+          <span class="title__chinese" />
+          <span class="title__english" />
+          <span class="title__chinese" />
+        </div>
       </template>
-      <template #selector>
+      <template #bottomCenter>
         <div class="input__group d-flex">
           <div class="input__select">
             <select
@@ -85,6 +88,19 @@
 </template>
 
 <style lang="scss" scoped>
+.title {
+  color: $Off_White;
+  cursor: default;
+  &__chinese {
+    font-size: 96px;
+    font-weight: bold;
+  }
+  &__english {
+    font-size: 32px;
+    letter-spacing: 0.4em;
+    margin-right: -0.4em;
+  }
+}
 .input__select {
   margin-right: 20px;
   .custom-selector {
@@ -297,11 +313,11 @@ export default {
         });
 
       [].forEach.call(
-        document.querySelectorAll(".chinese"),
+        document.querySelectorAll(".title__chinese"),
         (element, index) =>
           (element.innerHTML = this.selectCity.ch.substr(index, 1))
       );
-      document.querySelector(".english").innerHTML = this.selectCity.en;
+      document.querySelector(".title__english").innerHTML = this.selectCity.en;
 
       //Store search setting
       let searchHistory = {
