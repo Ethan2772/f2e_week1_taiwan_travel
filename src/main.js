@@ -13,3 +13,11 @@ new Vue({
   router,
   render: h => h(App)
 }).$mount('#app')
+
+router.beforeEach((to, from, next) => {
+  next();
+  // Scroll page to top on every route change
+  setTimeout(() => {
+    window.scrollTo(0, 0);
+  }, 100);
+});

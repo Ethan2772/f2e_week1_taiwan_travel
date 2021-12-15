@@ -1,11 +1,19 @@
 <template>
-  <div class="header-box position-relative" :style ="{backgroundImage:`url( ${require('@/assets/'+imgPath)} )`}">
-    <div class="circle__orange circle__orange1">
+  <div
+    class="header-box position-relative"
+    :style="{ backgroundImage: `url( ${require('@/assets/' + imgPath)} )` }"
+  >
+    <div class="circle__orange circle__orange1" style="opacity: 0.9">
       <div class="logo">
-        <img src="../assets/lets_go.png" width="120" height="90" alt="Let's go">
+        <img
+          src="@/assets/lets_go.png"
+          width="120"
+          height="90"
+          alt="Let's go logo"
+        />
       </div>
     </div>
-    <div class="circle__orange circle__orange2">
+    <div class="circle__orange circle__orange2 shadow">
       <i class="bi bi-flag"></i>
       <div class="circle__red">{{ saveItems }}</div>
     </div>
@@ -27,8 +35,8 @@ export default {
   props: {
     imgPath: {
       type: String,
-      default: "banner.png"
-    }
+      default: "banner.png",
+    },
   },
   data() {
     return {
@@ -63,6 +71,7 @@ export default {
       height: 64px;
       top: 98px;
       right: 48px;
+      cursor: pointer;
       > i {
         color: $Off_White;
         font-size: 25px;

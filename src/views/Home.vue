@@ -44,7 +44,10 @@
               </option>
             </select>
           </div>
-          <div class="button-search d-flex align-items-center" @click="getData">
+          <div
+            class="button-search d-flex align-items-center shadow"
+            @click="getData"
+          >
             <i class="bi bi-search text-white mx-auto"></i>
           </div>
         </div>
@@ -58,7 +61,7 @@
           :to="{ name: 'Tourism', params: { id: item.ID } }"
           class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4"
         >
-          <Card :item="item" class="mx-auto" />
+          <Card :item="item" />
         </router-link>
       </div>
       <nav aria-label="Page navigation example">
@@ -310,8 +313,11 @@ export default {
       let searchHistory = {
         city: this.selectCity,
         type: this.selectType,
-      }
-      sessionStorage.setItem("F2E_Travel_Search", JSON.stringify(searchHistory));
+      };
+      sessionStorage.setItem(
+        "F2E_Travel_Search",
+        JSON.stringify(searchHistory)
+      );
     },
   },
 };

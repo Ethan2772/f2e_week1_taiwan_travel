@@ -35,22 +35,25 @@
             <div class="col-lg-5">
               <div class="article__info">
                 <div
-                  class="shadow-sm p-3 mb-3 bg-white rounded d-flex"
+                  class="shadow-sm p-3 mb-3 bg-white d-flex"
                   :class="{ 'd-none': !item.Address }"
+                  style="border-radius: 20px"
                 >
                   <i class="bi bi-geo-alt-fill d-block me-3"></i>
                   {{ item.Address }}
                 </div>
                 <div
-                  class="shadow-sm p-3 mb-3 bg-white rounded d-flex"
+                  class="shadow-sm p-3 mb-3 bg-white d-flex"
                   :class="{ 'd-none': !item.Phone }"
+                  style="border-radius: 20px"
                 >
                   <i class="bi bi-telephone-fill d-block me-3"></i>
                   {{ formatNumber }}
                 </div>
                 <div
-                  class="shadow-sm p-3 mb-3 bg-white rounded d-flex"
+                  class="shadow-sm p-3 mb-3 bg-white d-flex"
                   :class="{ 'd-none': !item.OpenTime }"
+                  style="border-radius: 20px"
                 >
                   <i class="bi bi-clock-fill d-block me-3"></i>
                   {{ item.OpenTime }}

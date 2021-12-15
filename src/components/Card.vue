@@ -1,6 +1,6 @@
 <template>
   <div
-    class="Container card__box position-relative zoom-in"
+    class="Container card__box mx-auto position-relative zoom-in"
     :style="{
       background: `url('${item.Picture.PictureUrl1}') #e0e0e0 no-repeat center center`,
     }"
