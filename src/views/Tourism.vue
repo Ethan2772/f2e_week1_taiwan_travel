@@ -60,31 +60,7 @@
           </div>
         </div>
       </div>
-      <div v-show="nearbyItems.length" class="nearby__list">
-        <div
-          class="
-            nearby__list__header
-            d-flex
-            align-items-center
-            justify-content-between
-          "
-        >
-          <h3>附近美食</h3>
-          <div class="btn btn-explore-more">
-            更多美食<i class="bi bi-caret-right-fill"></i>
-          </div>
-        </div>
-        <div class="nearby__list__body row">
-          <router-link
-            v-for="item in nearbyItems"
-            :key="item.ID"
-            :to="{ name: 'Tourism', params: { id: item.ID } }"
-            class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-2"
-          >
-            <Card :item="item" />
-          </router-link>
-        </div>
-      </div>
+      <NearbyList v-for="(type, index) in types" :key="type.en" :name="type.ch" :list="nearbyLists[index]" />
     </div>
     <Footer />
   </div>
@@ -107,16 +83,7 @@
     font-weight: 400;
     line-height: 36px;
   }
-}
-.nearby__list__header {
-  color: $Title_Active;
-  h3 {
-    font-size: 28px;
-    font-weight: bold;
-    letter-spacing: 0.1em;
-  }
-  .btn-explore-more {
-    font-size: 20px;
+  &__info {
     font-weight: bold;
   }
 }
@@ -125,19 +92,25 @@
 <script>
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
-import Card from "@/components/Card.vue";
+import NearbyList from "@/components/NearbyList.vue";
 
 export default {
   name: "Tourism",
   components: {
     Header,
     Footer,
-    Card,
+    NearbyList,
   },
   data() {
     return {
       item: {},
-      nearbyItems: {},
+      nearbyLists: [],
+      types: [
+        { ch: "景點", en: "ScenicSpot" },
+        { ch: "活動", en: "Activity" },
+        { ch: "美食", en: "Restaurant" },
+        { ch: "旅宿", en: "Hotel" },
+      ],
     };
   },
   created() {
