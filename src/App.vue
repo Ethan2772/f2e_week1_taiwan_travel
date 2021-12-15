@@ -6,7 +6,7 @@
 
 <style lang="scss">
 #app {
-  font-family: Poppins, Roboto, Noto Serif JP;
+  font-family: Roboto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

@@ -91,6 +91,7 @@
 .title {
   color: $Off_White;
   cursor: default;
+  font-family: Noto Serif JP;
   &__chinese {
     font-size: 96px;
     font-weight: bold;
@@ -103,6 +104,7 @@
 }
 .input__select {
   margin-right: 20px;
+  font-weight: bold;
   .custom-selector {
     height: 49px;
     border-radius: 40px;

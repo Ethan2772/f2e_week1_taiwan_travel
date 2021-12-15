@@ -30,6 +30,9 @@
     color: $Off_White;
     text-align: left;
     padding: 0 24px 20px 20px;
+    &__name {
+      font-weight: bold !important;
+    }
     &__location {
       font-size: $Text_XSmall;
     }
