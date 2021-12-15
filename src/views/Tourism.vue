@@ -141,11 +141,11 @@ export default {
     };
   },
   created() {
-    this.getItem();
+    this.getPage();
   },
   watch: {
     $route() {
-      this.getItem();
+      this.getPage();
     },
   },
   computed: {
@@ -156,34 +156,50 @@ export default {
     },
   },
   methods: {
+    async getPage() {
+      const response = await this.getItem();
+      this.item = response.data[0];
+      this.getNearbyItems();
     },
     getItem() {
       const ID = this.$route.params.id;
       const type = this.$route.params.id.substr(0, 2);
 
-      const url = `https://ptx.transportdata.tw/MOTC/v2/Tourism/${this.getCategory(
-        type
-      )}`;
-      //get item
-      fetch(`${url}?$filter=ID eq '${ID}'&$format=JSON`, {
-        headers: this.GetAuthorizationHeader(),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          this.item = data[0];
-          //get nearby items
-          fetch(
-            `${url}?$select=ID, NAME, Address, Picture&$top=5&$spatialFilter=nearby(${data[0].Position.PositionLat}, ${data[0].Position.PositionLon}, 5000)&$format=JSON`,
-            { headers: this.GetAuthorizationHeader() }
-          )
-            .then((response) => response.json())
-            .then((data) => {
-              let selfIndex = data.findIndex((e) => e.ID === this.item.ID);
-              data.splice(selfIndex, 1);
-              this.nearbyItems = data;
-            });
-        });
+      return this.axios.get(
+        `https://ptx.transportdata.tw/MOTC/v2/Tourism/${this.getCategory(
+          type
+        )}`,
+        {
+          params: {
+            $filter: `ID eq '${ID}'`,
+            $format: "JSON",
+          },
+          headers: this.GetAuthorizationHeader(),
+        }
+      );
     },
+    getNearbyItems() {
+      // if (!this.item.Position) return;
+      Promise.all(
+        this.types.map((type) => {
+          return this.axios.get(
+            `https://ptx.transportdata.tw/MOTC/v2/Tourism/${type.en}`,
+            {
+              params: {
+                $select: `ID, NAME, Address, Picture`,
+                $top: 5,
+                $spatialFilter: `nearby(${this.item.Position.PositionLat}, ${this.item.Position.PositionLon}, 20000)`,
+                $format: "JSON",
+              },
+              headers: this.GetAuthorizationHeader(),
+            }
+          );
+        })
+      ).then((allResponse) => {
+        this.nearbyLists = allResponse.map((response) => {
+          return response.data.filter((item) => item.ID !== this.item.ID).slice(0, 4);
+        });
+      });
     },
   },
 };

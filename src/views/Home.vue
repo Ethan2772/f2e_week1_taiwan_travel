@@ -276,21 +276,27 @@ export default {
     }
   },
   mounted() {
-    this.getData();
+    this.search();
   },
   methods: {
+    search() {
+      this.getData();
+      this.setSearchHistory();
     },
     getData() {
       const url = `https://ptx.transportdata.tw/MOTC/v2/Tourism/${this.selectType.en}/${this.selectCity.value}`;
-      fetch(
-        `${url}?$select=ID, NAME, Address, Picture&$top=20&$format=JSON`,
-        { headers: this.GetAuthorizationHeader() }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          this.data = data;
-        });
-
+      this.axios
+        .get(url, {
+          params: {
+            $select: `ID, NAME, Address, Picture`,
+            $top: 20,
+            $format: "JSON",
+          },
+          headers: this.GetAuthorizationHeader(),
+        })
+        .then((response) => (this.data = response.data));
+    },
+    setSearchHistory() {
       [].forEach.call(
         document.querySelectorAll(".title__chinese"),
         (element, index) =>
