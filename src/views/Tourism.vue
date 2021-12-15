@@ -63,7 +63,13 @@
           </div>
         </div>
       </div>
-      <NearbyList v-for="(type, index) in types" :key="type.en" :name="type.ch" :list="nearbyLists[index]" />
+      <NearbyList
+        v-for="(type, index) in types"
+        :key="type.en"
+        :name="type.ch"
+        :list="nearbyLists[index]"
+        :city="item.City"
+      />
     </div>
     <Footer />
   </div>
@@ -155,7 +161,6 @@ export default {
       );
     },
     getNearbyItems() {
-      // if (!this.item.Position) return;
       Promise.all(
         this.types.map((type) => {
           return this.axios.get(
@@ -173,7 +178,9 @@ export default {
         })
       ).then((allResponse) => {
         this.nearbyLists = allResponse.map((response) => {
-          return response.data.filter((item) => item.ID !== this.item.ID).slice(0, 4);
+          return response.data
+            .filter((item) => item.ID !== this.item.ID)
+            .slice(0, 4);
         });
       });
     },
