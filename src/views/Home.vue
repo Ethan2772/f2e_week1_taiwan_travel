@@ -46,7 +46,7 @@
           </div>
           <div
             class="button-search d-flex align-items-center shadow"
-            @click="getData"
+            @click="search"
           >
             <i class="bi bi-search text-white mx-auto"></i>
           </div>
@@ -64,27 +64,6 @@
           <Card :item="item" />
         </router-link>
       </div>
-      <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-          <li class="page-item position-relative" style="margin-right: 77px">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span class="arrow arrow-left" aria-hidden="true"></span>
-            </a>
-          </li>
-          <li class="page-item page-item-active">
-            <a class="page-link" href="#">1</a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">4</a></li>
-          <li class="page-item"><a class="page-link" href="#">5</a></li>
-          <li class="page-item" style="margin-left: 77px">
-            <a class="page-link" href="#" aria-label="Next">
-              <span class="arrow arrow-right" aria-hidden="true"></span>
-            </a>
-          </li>
-        </ul>
-      </nav>
     </div>
     <Footer />
   </div>
@@ -152,51 +131,6 @@
   background-color: $Primary;
   font-size: 22px;
 }
-.pagination {
-  margin-top: 40px;
-  margin-bottom: 80px;
-}
-.page-item {
-  width: 28px;
-  height: 28px;
-  &-active {
-    border-radius: 50%;
-    background-color: rgba(0, 187, 240, 0.5);
-    .page-link {
-      color: $Off_White !important;
-    }
-  }
-  .page-link {
-    color: $Title_Active;
-    font-size: $Text_Small;
-    line-height: 28px;
-    margin-left: 0;
-    padding: 0;
-    border: 0;
-    background-color: transparent;
-    &::focus {
-      box-shadow: 0;
-    }
-  }
-}
-.arrow {
-  position: absolute;
-  top: 8px;
-  display: block;
-  width: 0 !important;
-  height: 0 !important;
-  border-style: solid;
-  &-left {
-    border-width: 6px 6px 6px 0;
-    border-color: transparent $Title_Active transparent transparent;
-    right: 0;
-  }
-  &-right {
-    border-width: 6px 0 6px 6px;
-    border-color: transparent transparent transparent $Title_Active;
-    left: 0;
-  }
-}
 </style>
 
 <script>
@@ -213,6 +147,7 @@ export default {
   },
   data() {
     return {
+      NUM_OF_PER_QUERY: 20,
       selectCity: { ch: "台南市", en: "Tainan", value: "Tainan" },
       selectType: { ch: "美食", en: "Restaurant" },
       cities: [
@@ -271,6 +206,7 @@ export default {
         { ch: "旅宿", en: "Hotel" },
       ],
       data: [],
+      offsetHeight: 0,
     };
   },
   created() {
@@ -282,24 +218,37 @@ export default {
   },
   mounted() {
     this.search();
+    window.onscroll = () => {
+      if (window.scrollY - this.offsetHeight >= 500) {
+        this.waterFall();
+      }
+    };
   },
   methods: {
-    search() {
-      this.getData();
+    async search() {
+      this.data = [];
+      let response = await this.getData();
+      this.data = this.data.concat(response.data);
+      this.offsetHeight = document.body.offsetHeight;
       this.setSearchHistory();
+    },
+    async waterFall() {
+      let response = await this.getData();
+      console.log(response.data)
+      this.data = this.data.concat(response.data);
+      this.offsetHeight = document.body.offsetHeight;
     },
     getData() {
       const url = `https://ptx.transportdata.tw/MOTC/v2/Tourism/${this.selectType.en}/${this.selectCity.value}`;
-      this.axios
-        .get(url, {
-          params: {
-            $select: `ID, NAME, Address, Picture`,
-            $top: 20,
-            $format: "JSON",
-          },
-          headers: this.GetAuthorizationHeader(),
-        })
-        .then((response) => (this.data = response.data));
+      return this.axios.get(url, {
+        params: {
+          $select: `ID, NAME, Address, Picture`,
+          $skip: this.data.length,
+          $top: this.NUM_OF_PER_QUERY,
+          $format: "JSON",
+        },
+        headers: this.GetAuthorizationHeader(),
+      });
     },
     setSearchHistory() {
       [].forEach.call(

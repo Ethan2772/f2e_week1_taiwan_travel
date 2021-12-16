@@ -146,6 +146,7 @@
 .style__box {
   height: 440px;
   overflow: hidden;
+  margin-top: 120px;
 }
 .blue-outer {
   width: 2000px;
