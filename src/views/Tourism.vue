@@ -1,6 +1,44 @@
 <template>
   <div>
-    <Header class="mb-5" />
+    <Header class="mb-5">
+      <template #bottomRight class="d-flex">
+        <div class="d-flex">
+          <div
+            class="
+              button
+              d-flex
+              justify-content-center
+              align-items-center
+              rounded-circle
+              bg-white
+              shadow
+            "
+          >
+            <i class="bi bi-map" style="font-size: 22px"></i>
+          </div>
+          <div
+            class="
+              button
+              d-flex
+              justify-content-center
+              align-items-center
+              rounded-circle
+              bg-white
+              shadow
+              ms-3
+            "
+            @click.stop.prevent="toggleColect(item)"
+            @click="showPinFill = !showPinFill"
+          >
+            <i
+              class="bi"
+              :class="[showPinFill ? 'bi-pin-angle-fill' : 'bi-pin-angle']"
+              style="font-size: 22px"
+            />
+          </div>
+        </div>
+      </template>
+    </Header>
     <div class="container mb-5">
       <div class="article row justify-content-center mb-5">
         <div class="col-xl-11 col-lg-9">
@@ -96,6 +134,19 @@
     font-weight: bold;
   }
 }
+.button {
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  &:hover .bi {
+    transform: scale(1.4);
+  }
+  .bi {
+    transform: scale(1);
+    transition: transform 0.4s ease;
+    color: $Title_Active;
+  }
+}
 </style>
 
 <script>
@@ -114,6 +165,7 @@ export default {
     return {
       item: {},
       nearbyLists: [],
+      showPinFill: false,
       types: [
         { ch: "景點", en: "ScenicSpot" },
         { ch: "活動", en: "Activity" },
@@ -142,6 +194,7 @@ export default {
       const response = await this.getItem();
       this.item = response.data[0];
       this.getNearbyItems();
+      this.showPinFill = this.isCollected(this.item);
     },
     getItem() {
       const ID = this.$route.params.id;

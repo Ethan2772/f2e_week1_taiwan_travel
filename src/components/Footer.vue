@@ -101,7 +101,7 @@
           <div class="footer__info__nav mt-4">
             <ul class="nav__list border-start border-white d-flex">
               <li class="nav__item border-end border-white">
-                <a href="#">我的行程</a>
+                <a href="#">我的收藏</a>
               </li>
               <li class="nav__item border-end border-white">
                 <a href="#">找美食</a>

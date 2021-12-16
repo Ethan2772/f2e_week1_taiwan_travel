@@ -13,3 +13,19 @@
   background-color: $Background;
 }
 </style>
+
+<script>
+export default {
+  created() {
+    let collection = localStorage.getItem("F2E_Travel_Collection");
+    if (collection && collection.length)
+      this.$store.commit("setCollection", JSON.parse(collection));
+  },
+  mounted() {
+    window.onbeforeunload = () => {
+      let collection = this.$store.getters.getCollection;
+      localStorage.setItem("F2E_Travel_Collection", JSON.stringify(collection));
+    };
+  },
+};
+</script>

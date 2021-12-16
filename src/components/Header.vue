@@ -13,10 +13,28 @@
         />
       </div>
     </div>
-    <div class="circle__orange circle__orange2 shadow">
-      <i class="bi bi-flag"></i>
-      <div class="circle__red">{{ saveItems }}</div>
-    </div>
+    <router-link :to="{ name: 'Home' }" v-slot="{ isExactActive, navigate }">
+      <div
+        class="circle__orange circle__orange2 shadow"
+        @click="navigate"
+        v-show="!isExactActive"
+      >
+        <i class="bi bi-house-door"></i>
+      </div>
+    </router-link>
+    <router-link
+      :to="{ name: 'Collection' }"
+      v-slot="{ isExactActive, navigate }"
+    >
+      <div
+        class="circle__orange circle__orange2 shadow"
+        @click="navigate"
+        v-show="!isExactActive"
+      >
+        <i class="bi bi-flag"></i>
+        <div class="circle__red">{{ saveItems }}</div>
+      </div>
+    </router-link>
     <div class="slot slot__middle">
       <slot name="middle" />
     </div>
@@ -38,10 +56,10 @@ export default {
       default: "banner.png",
     },
   },
-  data() {
-    return {
-      saveItems: "2",
-    };
+  computed: {
+    saveItems() {
+      return this.$store.getters.conutCollection;
+    },
   },
 };
 </script>
@@ -109,8 +127,8 @@ export default {
     &__bottomRight {
       left: calc(85% + 15px);
       transform: translateX(-50%);
-      height: 49px;
-      bottom: -25px;
+      height: 60px;
+      bottom: -30px;
     }
   }
 }

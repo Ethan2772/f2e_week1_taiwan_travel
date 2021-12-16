@@ -6,6 +6,25 @@
     }"
     :title="item.Picture.PictureDescription1"
   >
+    <div
+      class="
+        card__pin
+        position-absolute
+        top-0
+        end-0
+        d-flex
+        justify-content-center
+        align-items-center
+      "
+      @click.stop.prevent="toggleColect(item)"
+      @click="showPinFill = !showPinFill"
+    >
+      <i
+        class="bi"
+        :class="[showPinFill ? 'bi-pin-angle-fill' : 'bi-pin-angle']"
+        style="font-size: 22px"
+      />
+    </div>
     <div class="card__text position-absolute bottom-0">
       <h4 class="card__text__name text-truncate">{{ item.Name }}</h4>
       <span class="card__text__location d-block text-truncate"
@@ -23,6 +42,23 @@
     border-radius: 15px;
     position: relative;
     overflow: hidden;
+  }
+  &__pin {
+    z-index: 2;
+    background-color: $Off_White;
+    width: 60px;
+    height: 60px;
+    border-radius: 0 0 0 20px;
+    pointer-events: auto;
+    overflow: hidden;
+    &:hover .bi {
+      transform: scale(1.4);
+    }
+    .bi {
+      transform: scale(1);
+      transition: transform 0.4s ease;
+      color: $Title_Active;
+    }
   }
   &__text {
     width: 245px;
@@ -62,8 +98,16 @@
 <script>
 export default {
   name: "Card",
+  data() {
+    return {
+      showPinFill: false,
+    };
+  },
   props: {
     item: {},
+  },
+  created() {
+    this.showPinFill = this.isCollected(this.item);
   },
 };
 </script>
