@@ -6,6 +6,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import './mixins'
 import store from './store'
+import 'leaflet/dist/leaflet.css';
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios);

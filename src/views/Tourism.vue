@@ -99,6 +99,17 @@
               </div>
             </div>
           </div>
+          <l-map
+            style="width: 100%; height: 400px; margin-top: 32px"
+            :zoom="18"
+            :center="markerLatLng"
+          >
+            <l-tile-layer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            ></l-tile-layer>
+            <l-marker :lat-lng="markerLatLng"></l-marker>
+          </l-map>
         </div>
       </div>
       <NearbyList
@@ -116,7 +127,7 @@
 <style lang="scss" scoped>
 .btn-previous-page {
   color: $Title_Active;
-  &:hiver {
+  &:hover {
     background-color: $Title_Active;
     color: $Off_White;
   }
@@ -156,6 +167,8 @@
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import NearbyList from "@/components/NearbyList.vue";
+import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
+import { Icon } from "leaflet";
 
 export default {
   name: "Tourism",
@@ -163,6 +176,9 @@ export default {
     Header,
     Footer,
     NearbyList,
+    LMap,
+    LTileLayer,
+    LMarker,
   },
   data() {
     return {
@@ -175,10 +191,12 @@ export default {
         { ch: "美食", en: "Restaurant" },
         { ch: "旅宿", en: "Hotel" },
       ],
+      markerLatLng: [0, 0],
     };
   },
   created() {
     this.getPage();
+    this.reloadLMarkerIcon();
   },
   watch: {
     $route() {
@@ -196,6 +214,11 @@ export default {
     async getPage() {
       const response = await this.getItem();
       this.item = response.data[0];
+      this.markerLatLng = [
+        this.item.Position.PositionLat,
+        this.item.Position.PositionLon,
+      ];
+
       this.getNearbyItems();
       this.showPinFill = this.isCollected(this.item);
     },
@@ -238,6 +261,14 @@ export default {
             .filter((item) => item.ID !== this.item.ID)
             .slice(0, 4);
         });
+      });
+    },
+    reloadLMarkerIcon() {
+      delete Icon.Default.prototype._getIconUrl;
+      Icon.Default.mergeOptions({
+        iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
+        iconUrl: require("leaflet/dist/images/marker-icon.png"),
+        shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
       });
     },
   },
