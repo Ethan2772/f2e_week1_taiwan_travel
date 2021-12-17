@@ -137,6 +137,7 @@
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import Card from "@/components/Card.vue";
+import { debounce } from "debounce";
 
 export default {
   name: "Home",
@@ -206,37 +207,45 @@ export default {
         { ch: "旅宿", en: "Hotel" },
       ],
       data: [],
-      offsetHeight: 0,
+      containerOffsetHeight: 0,
+      handleDebounceScroll: null,
     };
   },
   created() {
-    let searchHistory = JSON.parse(sessionStorage.getItem("F2E_Travel_Search"));
-    if (searchHistory) {
-      this.selectCity = searchHistory.city;
-      this.selectType = searchHistory.type;
-    }
+    const readSearchHistory = () => {
+      const searchHistory = JSON.parse(
+        sessionStorage.getItem("F2E_Travel_Search")
+      );
+      if (searchHistory) {
+        this.selectCity = searchHistory.city;
+        this.selectType = searchHistory.type;
+      }
+    };
+
+    readSearchHistory();
+    this.handleDebounceScroll = debounce(this.lazyLoading, 250);
+    window.addEventListener("scroll", this.handleDebounceScroll);
   },
   mounted() {
     this.search();
-    window.onscroll = () => {
-      if (window.scrollY - this.offsetHeight >= 500) {
-        this.waterFall();
-      }
-    };
+  },
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.handleDebounceScroll);
   },
   methods: {
     async search() {
       this.data = [];
-      let response = await this.getData();
+      const response = await this.getData();
       this.data = this.data.concat(response.data);
-      this.offsetHeight = document.body.offsetHeight;
+      this.containerOffsetHeight = document.body.offsetHeight;
       this.setSearchHistory();
     },
-    async waterFall() {
-      let response = await this.getData();
-      console.log(response.data)
-      this.data = this.data.concat(response.data);
-      this.offsetHeight = document.body.offsetHeight;
+    async lazyLoading() {
+      if (window.scrollY - this.containerOffsetHeight >= 500) {
+        const response = await this.getData();
+        this.data = this.data.concat(response.data);
+        this.containerOffsetHeight = document.body.offsetHeight;
+      }
     },
     getData() {
       const url = `https://ptx.transportdata.tw/MOTC/v2/Tourism/${this.selectType.en}/${this.selectCity.value}`;
@@ -259,7 +268,7 @@ export default {
       document.querySelector(".title__english").innerHTML = this.selectCity.en;
 
       //Store search setting
-      let searchHistory = {
+      const searchHistory = {
         city: this.selectCity,
         type: this.selectType,
       };

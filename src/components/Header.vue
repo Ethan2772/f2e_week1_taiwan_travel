@@ -1,8 +1,19 @@
 <template>
   <div
     class="header-box position-relative"
-    :style="{ backgroundImage: `url( ${require('@/assets/' + imgPath)} )` }"
   >
+      <img
+      class="header_image"
+      :src="
+        !Object.values(Picture).length
+          ? require('@/assets/banner.png')
+          : Picture.PictureUrl1
+      "
+      :alt="Picture.PictureDescription1"
+      width="auto"
+      height="280"
+      style="object-fit: cover"
+    />
     <div class="circle__orange circle__orange1" style="opacity: 0.9">
       <div class="logo">
         <img
@@ -51,9 +62,10 @@
 export default {
   name: "Header",
   props: {
-    imgPath: {
-      type: String,
-      default: "banner.png",
+    Picture: {
+      default() {
+        return {}
+      }
     },
   },
   computed: {

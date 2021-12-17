@@ -1,11 +1,17 @@
 <template>
-  <div
-    class="Container card__box mx-auto position-relative zoom-in"
-    :style="{
-      background: `url('${item.Picture.PictureUrl1}') #e0e0e0 no-repeat center center`,
-    }"
-    :title="item.Picture.PictureDescription1"
-  >
+  <div class="Container card__box mx-auto position-relative">
+    <img
+      class="zoom-in"
+      :src="
+        !Object.values(item.Picture).length
+          ? require('@/assets/image_not_found.png')
+          : item.Picture.PictureUrl1
+      "
+      :alt="item.Picture.PictureDescription1"
+      width="245"
+      height="280"
+      style="object-fit: cover"
+    />
     <div
       class="
         card__pin
@@ -42,6 +48,7 @@
     border-radius: 15px;
     position: relative;
     overflow: hidden;
+    background-color: #e0e0e0;
   }
   &__pin {
     z-index: 2;
@@ -75,22 +82,9 @@
   }
 }
 .zoom-in {
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: inherit;
-    transform-origin: center;
-    transition: transform 0.4s ease-in-out;
-  }
-  &:focus,
+  transition: transform 0.4s ease-in-out;
   &:hover {
-    &::after {
-      transform: scale(1.1);
-    }
+    transform: scale(1.1);
   }
 }
 </style>

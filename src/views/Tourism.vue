@@ -73,7 +73,7 @@
             <div class="col-lg-5">
               <div class="article__info">
                 <div
-                  class="shadow-sm p-3 mb-3 bg-white d-flex"
+                  class="shadow-sm p-4 mb-3 bg-white d-flex"
                   :class="{ 'd-none': !item.Address }"
                   style="border-radius: 20px"
                 >
@@ -81,7 +81,7 @@
                   {{ item.Address }}
                 </div>
                 <div
-                  class="shadow-sm p-3 mb-3 bg-white d-flex"
+                  class="shadow-sm p-4 mb-3 bg-white d-flex"
                   :class="{ 'd-none': !item.Phone }"
                   style="border-radius: 20px"
                 >
@@ -89,7 +89,7 @@
                   {{ formatNumber }}
                 </div>
                 <div
-                  class="shadow-sm p-3 mb-3 bg-white d-flex"
+                  class="shadow-sm p-4 mb-3 bg-white d-flex"
                   :class="{ 'd-none': !item.OpenTime }"
                   style="border-radius: 20px"
                 >
@@ -114,9 +114,12 @@
 </template>
 
 <style lang="scss" scoped>
-.btn-previous-page:hover {
-  background-color: $Title_Active;
-  color: $Off_White;
+.btn-previous-page {
+  color: $Title_Active;
+  &:hiver {
+    background-color: $Title_Active;
+    color: $Off_White;
+  }
 }
 .article {
   color: $Title_Active;

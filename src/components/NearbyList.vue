@@ -37,6 +37,7 @@
       letter-spacing: 0.1em;
     }
     .btn-explore-more {
+      color: $Title_Active;
       font-size: 20px;
       font-weight: bold;
     }
