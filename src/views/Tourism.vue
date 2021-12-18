@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header class="mb-5">
+    <Header :Picture="item.Picture" class="mb-5">
       <template #bottomRight class="d-flex">
         <div class="d-flex">
           <div
@@ -43,8 +43,7 @@
       <div class="article row justify-content-center mb-5">
         <div class="col-xl-11 col-lg-9">
           <div
-            class="article__title d-flex align-items-center mb-5"
-            style="height: 90px"
+            class="article__title d-flex align-items-center"
           >
             <router-link :to="{ name: 'Home' }" class="h-100">
               <div
@@ -64,7 +63,7 @@
             </router-link>
             <h1 class="ms-3">{{ item.Name }}</h1>
           </div>
-          <div class="row">
+          <div class="row mt-5">
             <div class="col-lg-7">
               <div class="article__text">
                 <p>{{ item.Description }}</p>

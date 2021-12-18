@@ -1,17 +1,15 @@
 <template>
-  <div
-    class="header-box position-relative"
-  >
-      <img
-      class="header_image"
+  <div class="header__box position-relative">
+    <img
+      class="header__image"
       :src="
         !Object.values(Picture).length
           ? require('@/assets/banner.png')
           : Picture.PictureUrl1
       "
       :alt="Picture.PictureDescription1"
-      width="auto"
-      height="280"
+      width="1480"
+      height="400"
       style="object-fit: cover"
     />
     <div class="circle__orange circle__orange1" style="opacity: 0.9">
@@ -64,8 +62,8 @@ export default {
   props: {
     Picture: {
       default() {
-        return {}
-      }
+        return {};
+      },
     },
   },
   computed: {
@@ -77,15 +75,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.header-box {
-  background-size: cover;
-  height: 400px;
+.header__box {
+  .header__image {
+    width: 100%;
+  }
+  max-height: 400px;
   margin-bottom: 102px;
   .circle__orange {
     position: absolute;
     background-color: $Secondary;
     border-radius: 50%;
     &1 {
+      @media (max-width: 411px) {
+        display: none !important;
+      }
       width: 280px;
       height: 280px;
       left: -40px;
@@ -124,21 +127,23 @@ export default {
   .slot {
     position: absolute;
     &__middle {
-      left: calc(50% + 15px);
+      @media (max-width: 576px) {
+        display: none !important;
+      }
+      left: 50%;
       transform: translateX(-50%);
       width: 508px;
       height: 120px;
       top: 140px;
     }
     &__bottomCenter {
-      left: calc(50% + 15px);
+      left: 50%;
       transform: translateX(-50%);
       height: 49px;
       bottom: -25px;
     }
     &__bottomRight {
-      left: calc(85% + 15px);
-      transform: translateX(-50%);
+      right: 15%;
       height: 60px;
       bottom: -30px;
     }
