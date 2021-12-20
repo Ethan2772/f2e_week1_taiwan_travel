@@ -12,19 +12,6 @@
               rounded-circle
               bg-white
               shadow
-            "
-          >
-            <i class="bi bi-map" style="font-size: 22px"></i>
-          </div>
-          <div
-            class="
-              button
-              d-flex
-              justify-content-center
-              align-items-center
-              rounded-circle
-              bg-white
-              shadow
               ms-3
             "
             @click.stop.prevent="toggleColect(item)"
@@ -42,19 +29,9 @@
     <div class="container mb-5">
       <div class="article row justify-content-center mb-5">
         <div class="col-xl-11 col-lg-9">
-          <div
-            class="article__title d-flex align-items-center"
-          >
-            <router-link :to="{ name: 'Home' }" class="h-100">
-              <div
-                class="
-                  btn btn-previous-page
-                  d-flex
-                  align-items-center
-                  h-100
-                  p-0
-                "
-              >
+          <div class="article__title d-flex align-items-center">
+            <router-link :to="{ name: 'Home' }" class="d-block h-100">
+              <div class="btn-previous-page p-0">
                 <i
                   class="bi bi-chevron-left"
                   style="font-size: 20px; font-weight: 700"
@@ -73,28 +50,38 @@
               <div class="article__info">
                 <div
                   class="shadow-sm p-4 mb-3 bg-white d-flex"
-                  :class="{ 'd-none': !item.Address }"
                   style="border-radius: 20px"
                 >
                   <i class="bi bi-geo-alt-fill d-block me-3"></i>
-                  {{ item.Address }}
+                  {{ checkValue(item.Address) }}
                 </div>
                 <div
                   class="shadow-sm p-4 mb-3 bg-white d-flex"
-                  :class="{ 'd-none': !item.Phone }"
                   style="border-radius: 20px"
                 >
                   <i class="bi bi-telephone-fill d-block me-3"></i>
-                  {{ formatNumber }}
+                  <a v-if="item.Phone" :href="`tel:${item.Phone}`">{{
+                    formatNumber
+                  }}</a>
+                  <a v-else>尚未提供資訊</a>
                 </div>
                 <div
                   class="shadow-sm p-4 mb-3 bg-white d-flex"
-                  :class="{ 'd-none': !item.OpenTime }"
                   style="border-radius: 20px"
                 >
                   <i class="bi bi-clock-fill d-block me-3"></i>
-                  {{ item.OpenTime }}
+                  <span>{{ checkValue(item.OpenTime) }}</span>
                 </div>
+                <a :href="item.WebsiteUrl" target="_blank"
+                  ><div
+                    class="shadow-sm p-4 mb-3 bg-white d-flex"
+                    :class="{ 'd-none': !item.WebsiteUrl }"
+                    style="border-radius: 20px; word-break: break-all"
+                  >
+                    <i class="bi bi-share-fill d-block me-3"></i>
+                    {{ item.WebsiteUrl }}
+                  </div></a
+                >
               </div>
             </div>
           </div>
@@ -159,6 +146,10 @@
     transition: transform 0.4s ease;
     color: $Title_Active;
   }
+}
+a {
+  text-decoration: none;
+  color: $Title_Active;
 }
 </style>
 
@@ -269,6 +260,10 @@ export default {
         iconUrl: require("leaflet/dist/images/marker-icon.png"),
         shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
       });
+    },
+    checkValue(val) {
+      if (val) return val;
+      return "未提供資訊";
     },
   },
 };

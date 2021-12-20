@@ -3,11 +3,15 @@
     <img
       class="zoom-in"
       :src="
-        !Object.values(item.Picture).length
-          ? require('@/assets/image_not_found.png')
-          : item.Picture.PictureUrl1
+        Object.values(item.Picture).length
+          ? item.Picture.PictureUrl1
+          : require('@/assets/image_not_found.png')
       "
-      :alt="item.Picture.PictureDescription1"
+      :alt="
+        Object.values(item.Picture).length
+          ? item.Picture.PictureDescription1
+          : 'image not found'
+      "
       width="245"
       height="280"
       style="object-fit: cover"

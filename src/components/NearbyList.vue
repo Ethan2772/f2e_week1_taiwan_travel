@@ -1,5 +1,5 @@
 <template>
-  <div class="nearby__list">
+  <div v-if="list && list.length" class="nearby__list">
     <div
       class="
         nearby__list__header

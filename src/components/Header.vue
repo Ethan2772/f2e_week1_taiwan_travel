@@ -2,15 +2,21 @@
   <div class="header__box position-relative">
     <img
       class="header__image"
-      :src="
-        !Object.values(Picture).length
-          ? require('@/assets/banner.png')
-          : Picture.PictureUrl1
-      "
-      :alt="Picture.PictureDescription1"
+      :class="{ blur: hasPicture }"
+      :src="hasPicture ? Picture.PictureUrl1 : require('@/assets/banner.png')"
+      :alt="!hasPicture ? Picture.PictureDescription1 : 'page banner'"
       width="1480"
       height="400"
       style="object-fit: cover"
+    />
+    <img
+      v-if="hasPicture"
+      :src="Picture.PictureUrl1"
+      :alt="Picture.PictureDescription1"
+      width="1480"
+      height="400"
+      class="position-absolute top-50 start-50 translate-middle"
+      style="object-fit: contain"
     />
     <div class="circle__orange circle__orange1" style="opacity: 0.9">
       <div class="logo">
@@ -69,6 +75,9 @@ export default {
   computed: {
     saveItems() {
       return this.$store.getters.conutCollection;
+    },
+    hasPicture() {
+      return Object.values(this.Picture).length;
     },
   },
 };
@@ -147,6 +156,14 @@ export default {
       height: 60px;
       bottom: -30px;
     }
+  }
+  .blur {
+    transform: scale(1.1, 1);
+    -webkit-filter: blur(8px);
+    -moz-filter: blur(8px);
+    -o-filter: blur(8px);
+    -ms-filter: blur(8px);
+    filter: blur(8px);
   }
 }
 </style>
