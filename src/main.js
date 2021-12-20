@@ -7,6 +7,8 @@ import VueAxios from 'vue-axios'
 import './mixins'
 import store from './store'
 import 'leaflet/dist/leaflet.css';
+import "bootstrap-icons/font/bootstrap-icons.css";
+
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios);

@@ -13,6 +13,9 @@
   background-color: $Background;
 }
 </style>
+<style lang="scss">
+  @import '~bootstrap/scss/bootstrap';  
+</style>
 
 <script>
 export default {
