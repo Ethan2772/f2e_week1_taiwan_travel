@@ -30,14 +30,12 @@
       <div class="article row justify-content-center mb-5">
         <div class="col-xl-11 col-lg-9">
           <div class="article__title d-flex align-items-center">
-            <router-link :to="{ name: 'Home' }" class="d-block h-100">
-              <div class="btn-previous-page p-0">
-                <i
-                  class="bi bi-chevron-left"
-                  style="font-size: 20px; font-weight: 700"
-                ></i>
-              </div>
-            </router-link>
+            <div class="btn-previous-page p-0" @click="$router.go(-1)">
+              <i
+                class="bi bi-chevron-left"
+                style="font-size: 20px; font-weight: 700"
+              ></i>
+            </div>
             <h1 class="ms-3">{{ item.Name }}</h1>
           </div>
           <div class="row mt-5">
@@ -63,7 +61,7 @@
                   <a v-if="item.Phone" :href="`tel:${item.Phone}`">{{
                     formatNumber
                   }}</a>
-                  <a v-else>尚未提供資訊</a>
+                  <a v-else>未提供資訊</a>
                 </div>
                 <div
                   class="shadow-sm p-4 mb-3 bg-white d-flex"
@@ -159,6 +157,7 @@ import Footer from "@/components/Footer.vue";
 import NearbyList from "@/components/NearbyList.vue";
 import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
 import { Icon } from "leaflet";
+import { get } from "idb-keyval";
 
 export default {
   name: "Tourism",
@@ -202,15 +201,22 @@ export default {
   },
   methods: {
     async getPage() {
-      const response = await this.getItem();
-      this.item = response.data[0];
-      this.markerLatLng = [
-        this.item.Position.PositionLat,
-        this.item.Position.PositionLon,
-      ];
+      if (navigator.onLine) {
+        const response = await this.getItem();
+        this.item = response.data[0];
+        this.markerLatLng = [
+          this.item.Position.PositionLat,
+          this.item.Position.PositionLon,
+        ];
 
-      this.getNearbyItems();
-      this.showPinFill = this.isCollected(this.item);
+        this.getNearbyItems();
+        this.showPinFill = this.isCollected(this.item);
+      } else {
+        get(this.$route.params.id).then((value) => {
+          console.log(value);
+          this.item = value;
+        });
+      }
     },
     getItem() {
       const ID = this.$route.params.id;
@@ -236,9 +242,9 @@ export default {
             `https://ptx.transportdata.tw/MOTC/v2/Tourism/${type.en}`,
             {
               params: {
-                $select: `ID, NAME, Address, Picture`,
+                $select: `ID, NAME, Address, Picture, Description, Phone`,
                 $top: 5,
-                $spatialFilter: `nearby(${this.item.Position.PositionLat}, ${this.item.Position.PositionLon}, 20000)`,
+                $spatialFilter: `nearby(${this.item.Position.PositionLat}, ${this.item.Position.PositionLon}, 40000)`,
                 $format: "JSON",
               },
               headers: this.GetAuthorizationHeader(),

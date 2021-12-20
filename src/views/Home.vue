@@ -251,7 +251,7 @@ export default {
       const url = `https://ptx.transportdata.tw/MOTC/v2/Tourism/${this.selectType.en}/${this.selectCity.value}`;
       return this.axios.get(url, {
         params: {
-          $select: `ID, NAME, Address, Picture`,
+          $select: `ID, NAME, Address, Picture, Description, Phone`,
           $skip: this.data.length,
           $top: this.NUM_OF_PER_QUERY,
           $format: "JSON",

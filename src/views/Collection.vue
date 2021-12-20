@@ -59,6 +59,7 @@ h1 {
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import Card from "@/components/Card.vue";
+import { values } from "idb-keyval";
 
 export default {
   name: "Home",
@@ -74,7 +75,9 @@ export default {
     };
   },
   mounted() {
-    this.data = this.$store.getters.getCollection;
+    navigator.onLine
+      ? (this.data = this.$store.getters.getCollection)
+      : values().then((values) => (this.data = values));
     [].forEach.call(
       document.querySelectorAll(".title__chinese"),
       (element, index) => (element.innerHTML = this.title.ch.substr(index, 1))

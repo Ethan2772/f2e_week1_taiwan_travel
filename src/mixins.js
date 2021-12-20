@@ -1,5 +1,6 @@
 import Vue from "vue";
 import jsSHA from "jssha";
+import { del, set } from "idb-keyval";
 
 Vue.mixin({
   methods: {
@@ -32,6 +33,7 @@ Vue.mixin({
       }
     },
     toggleColect(card) {
+      this.isCollected(card) ? del(card.ID) : set(card.ID, card);
       this.$store.commit("toggleCard", card);
     },
     isCollected(card) {
