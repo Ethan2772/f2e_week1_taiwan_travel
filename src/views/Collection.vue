@@ -8,11 +8,6 @@
           <span class="title__chinese" />
         </div>
       </template>
-      <template #bottomRight>
-        <div class="btn rounded-circle bg-white shadow">
-          <i class="bi bi-map" style="font-size: 22px"></i>
-        </div>
-      </template>
     </Header>
     <div class="container">
       <div v-if="data.length" class="row mx-lg-5">
@@ -20,7 +15,7 @@
           v-for="item in data"
           :key="item.ID"
           :to="{ name: 'Tourism', params: { id: item.ID } }"
-          class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4"
+          class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4"
         >
           <Card :item="item" />
         </router-link>

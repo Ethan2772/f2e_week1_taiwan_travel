@@ -5,7 +5,7 @@
       :class="{ blur: hasPicture }"
       :src="hasPicture ? Picture.PictureUrl1 : require('@/assets/banner.png')"
       :alt="!hasPicture ? Picture.PictureDescription1 : 'page banner'"
-      width="1480"
+      width="100%"
       height="400"
       style="object-fit: cover"
     />
@@ -13,9 +13,9 @@
       v-if="hasPicture"
       :src="Picture.PictureUrl1"
       :alt="Picture.PictureDescription1"
-      width="1480"
+      width="100%"
       height="400"
-      class="position-absolute top-50 start-50 translate-middle"
+      class="header__image position-absolute top-50 start-50 translate-middle"
       style="object-fit: contain"
     />
     <div class="circle__orange circle__orange1" style="opacity: 0.9">
@@ -77,7 +77,7 @@ export default {
       return this.$store.getters.conutCollection;
     },
     hasPicture() {
-      return Object.values(this.Picture).length;
+      return Object.values(this.Picture).length > 1;
     },
   },
 };
@@ -85,17 +85,13 @@ export default {
 
 <style lang="scss" scoped>
 .header__box {
-  .header__image {
-    width: 100%;
-  }
-  max-height: 400px;
   margin-bottom: 102px;
   .circle__orange {
     position: absolute;
     background-color: $Secondary;
     border-radius: 50%;
     &1 {
-      @media (max-width: 411px) {
+      @media (max-width: 576px) {
         display: none !important;
       }
       width: 280px;
@@ -158,6 +154,7 @@ export default {
     }
   }
   .blur {
+    overflow: hidden;
     transform: scale(1.1, 1);
     -webkit-filter: blur(8px);
     -moz-filter: blur(8px);

@@ -134,10 +134,12 @@
           />
         </svg>
       </div>
-      <div class="button button__up__icon" @click="scrollTop">
+      <div class="button button__up button__up__icon" @click="scrollTop">
         <i class="bi bi-arrow-up-circle"></i>
       </div>
-      <div class="button button__up__text" @click="scrollTop">TOP</div>
+      <div class="button button__up button__up__text" @click="scrollTop">
+        TOP
+      </div>
     </div>
   </div>
 </template>
@@ -186,19 +188,31 @@
   position: absolute;
   cursor: pointer;
   &__up {
+    width: 36px;
+    right: 492px;
+    color: $Off_White;
+    @media (max-width: 1050px) {
+      right: 692px;
+    }
+    @media (max-width: 672px) {
+      right: 752px;
+    }
+    @media (max-width: 576px) {
+      right: 862px;
+    }
     &__icon {
-      // width: 32px;
       top: 120px;
-      right: 492px;
       font-size: 36px;
-      color: $Off_White;
+      @media (max-width: 672px) {
+        top: 70px;
+      }
     }
     &__text {
-      width: 32px;
       top: 176px;
-      right: 493px;
       font-size: $Text_Small;
-      color: $Off_White;
+      @media (max-width: 672px) {
+        top: 126px;
+      }
     }
   }
 }
@@ -221,6 +235,9 @@
       color: $Off_White;
     }
     &__nav {
+      @media (max-width: 992px) {
+        display: none;
+      }
       .nav__list {
         list-style-type: none;
         padding-left: 0;

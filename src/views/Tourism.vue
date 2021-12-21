@@ -41,7 +41,7 @@
           <div class="row mt-5">
             <div class="col-lg-7">
               <div class="article__text">
-                <p>{{ item.Description }}</p>
+                <p>{{ checkValue(item.Description) }}</p>
               </div>
             </div>
             <div class="col-lg-5">

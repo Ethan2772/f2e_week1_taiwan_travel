@@ -59,7 +59,7 @@
           v-for="item in data"
           :key="item.ID"
           :to="{ name: 'Tourism', params: { id: item.ID } }"
-          class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4"
+          class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4"
         >
           <Card :item="item" />
         </router-link>
@@ -104,6 +104,9 @@
     background: url("../assets/arrow_down.png") no-repeat 80% center transparent;
     background-size: 12px 6px;
     background-color: #fff;
+    @media (max-width: 576px) {
+      padding: 6px 26px 6px 12px;
+    }
     &:after {
       content: "";
       position: absolute;

@@ -3,12 +3,12 @@
     <img
       class="zoom-in"
       :src="
-        Object.values(item.Picture).length
+        Object.values(item.Picture).length > 1
           ? item.Picture.PictureUrl1
           : require('@/assets/image_not_found.png')
       "
       :alt="
-        Object.values(item.Picture).length
+        Object.values(item.Picture).length > 1
           ? item.Picture.PictureDescription1
           : 'image not found'
       "
@@ -77,11 +77,12 @@
     color: $Off_White;
     text-align: left;
     padding: 0 24px 20px 20px;
-    &__name {
+    h4 {
       font-weight: bold !important;
     }
     &__location {
       font-size: $Text_XSmall;
+      font-weight: bold !important;
     }
   }
 }
