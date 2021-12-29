@@ -18,6 +18,7 @@
         v-for="item in list"
         :key="item.ID"
         :to="{ name: 'Tourism', params: { id: item.ID } }"
+        replace
         class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-2"
       >
         <Card :item="item" />

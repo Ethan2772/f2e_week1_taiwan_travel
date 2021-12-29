@@ -213,7 +213,6 @@ export default {
         this.showPinFill = this.isCollected(this.item);
       } else {
         get(this.$route.params.id).then((value) => {
-          console.log(value);
           this.item = value;
         });
       }
