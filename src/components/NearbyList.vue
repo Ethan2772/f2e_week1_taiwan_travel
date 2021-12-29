@@ -16,8 +16,8 @@
     <div class="nearby__list__body row justify-content-center">
       <router-link
         v-for="item in list"
-        :key="item.ID"
-        :to="{ name: 'Tourism', params: { id: item.ID } }"
+        :key="Object.values(item)[0]"
+        :to="{ name: 'Tourism', params: { id: Object.values(item)[0] } }"
         replace
         class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-2"
       >

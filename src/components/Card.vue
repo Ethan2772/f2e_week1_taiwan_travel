@@ -36,7 +36,7 @@
       />
     </div>
     <div class="card__text position-absolute bottom-0">
-      <h4 class="card__text__name text-truncate">{{ item.Name }}</h4>
+      <h4 class="card__text__name text-truncate">{{ Object.values(item)[1] }}</h4>
       <span class="card__text__location d-block text-truncate"
         ><i class="bi bi-geo-alt mx-1" />{{ item.Address }}</span
       >

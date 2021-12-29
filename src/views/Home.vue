@@ -57,8 +57,8 @@
       <div class="row mx-lg-5">
         <router-link
           v-for="item in data"
-          :key="item.ID"
-          :to="{ name: 'Tourism', params: { id: item.ID } }"
+          :key=Object.values(item)[0]
+          :to="{ name: 'Tourism', params: { id: Object.values(item)[0] } }"
           class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4"
         >
           <Card :item="item" />
@@ -254,7 +254,7 @@ export default {
       const url = `https://ptx.transportdata.tw/MOTC/v2/Tourism/${this.selectType.en}/${this.selectCity.value}`;
       return this.axios.get(url, {
         params: {
-          $select: `ID, NAME, Address, Picture, Description, Phone`,
+          $select: `${this.selectType.en}ID, ${this.selectType.en}Name, Address, Picture, Description, Phone`,
           $skip: this.data.length,
           $top: this.NUM_OF_PER_QUERY,
           $format: "JSON",

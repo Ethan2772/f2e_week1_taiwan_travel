@@ -36,7 +36,7 @@
                 style="font-size: 20px; font-weight: 700"
               ></i>
             </div>
-            <h1 class="ms-3">{{ item.Name }}</h1>
+            <h1 class="ms-3">{{ Object.values(item)[1] }}</h1>
           </div>
           <div class="row mt-5">
             <div class="col-lg-7">
@@ -219,15 +219,14 @@ export default {
     },
     getItem() {
       const ID = this.$route.params.id;
-      const type = this.$route.params.id.substr(0, 2);
+      let type = this.$route.params.id.substr(0, 2);
+      type = this.getCategory(type);
 
       return this.axios.get(
-        `https://ptx.transportdata.tw/MOTC/v2/Tourism/${this.getCategory(
-          type
-        )}`,
+        `https://ptx.transportdata.tw/MOTC/v2/Tourism/${type}`,
         {
           params: {
-            $filter: `ID eq '${ID}'`,
+            $filter: `${type}ID eq '${ID}'`,
             $format: "JSON",
           },
           headers: this.GetAuthorizationHeader(),
@@ -241,7 +240,7 @@ export default {
             `https://ptx.transportdata.tw/MOTC/v2/Tourism/${type.en}`,
             {
               params: {
-                $select: `ID, NAME, Address, Picture, Description, Phone`,
+                $select: `${type.en}ID, ${type.en}Name, Address, Picture, Description, Phone`,
                 $top: 5,
                 $spatialFilter: `nearby(${this.item.Position.PositionLat}, ${this.item.Position.PositionLon}, 40000)`,
                 $format: "JSON",
@@ -253,7 +252,7 @@ export default {
       ).then((allResponse) => {
         this.nearbyLists = allResponse.map((response) => {
           return response.data
-            .filter((item) => item.ID !== this.item.ID)
+            .filter((item) => Object.values(item)[0] !== this.$route.params.id)
             .slice(0, 4);
         });
       });

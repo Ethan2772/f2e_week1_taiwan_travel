@@ -13,8 +13,8 @@
       <div v-if="data.length" class="row mx-lg-5">
         <router-link
           v-for="item in data"
-          :key="item.ID"
-          :to="{ name: 'Tourism', params: { id: item.ID } }"
+          :key="Object.values(item)[0]"
+          :to="{ name: 'Tourism', params: { id: Object.values(item)[0] } }"
           class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4"
         >
           <Card :item="item" />
