@@ -12,7 +12,6 @@
               rounded-circle
               bg-white
               shadow
-              ms-3
             "
             @click.stop.prevent="toggleColect(item)"
             @click="showPinFill = !showPinFill"
@@ -132,23 +131,6 @@
     font-weight: bold;
   }
 }
-.button {
-  width: 60px;
-  height: 60px;
-  cursor: pointer;
-  &:hover .bi {
-    transform: scale(1.4);
-  }
-  .bi {
-    transform: scale(1);
-    transition: transform 0.4s ease;
-    color: $Title_Active;
-  }
-}
-a {
-  text-decoration: none;
-  color: $Title_Active;
-}
 </style>
 
 <script>
@@ -240,7 +222,7 @@ export default {
             `https://ptx.transportdata.tw/MOTC/v2/Tourism/${type.en}`,
             {
               params: {
-                $select: `${type.en}ID, ${type.en}Name, Address, Picture, Description, Phone`,
+                $select: `${type.en}ID, ${type.en}Name, Address, Picture, Description, Phone, Position`,
                 $top: 5,
                 $spatialFilter: `nearby(${this.item.Position.PositionLat}, ${this.item.Position.PositionLon}, 40000)`,
                 $format: "JSON",

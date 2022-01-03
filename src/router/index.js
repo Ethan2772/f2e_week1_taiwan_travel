@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Collection from '../views/Collection.vue'
+import MapMode from '../views/mapMode.vue'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ const routes = [
     path: '/collection',
     name: 'Collection',
     component: Collection
+  },
+  {
+    path: '/mapview',
+    name: 'MapMode',
+    component: MapMode
   },
   {
     path: '/tourism/:id',

@@ -83,52 +83,54 @@ export default {
 };
 </script>
 
+<style lang="scss">
+.circle__orange {
+  position: absolute;
+  background-color: $Secondary;
+  border-radius: 50%;
+  &1 {
+    @media (max-width: 576px) {
+      display: none !important;
+    }
+    width: 280px;
+    height: 280px;
+    left: -40px;
+    top: -50px;
+    .logo {
+      position: absolute;
+      left: 80px;
+      top: 95px;
+    }
+  }
+  &2 {
+    width: 64px;
+    height: 64px;
+    top: 98px;
+    right: 48px;
+    cursor: pointer;
+    > i {
+      color: $Off_White;
+      font-size: 25px;
+      line-height: 64px;
+    }
+    .circle__red {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background-color: $Error;
+      position: absolute;
+      top: -7px;
+      right: -7px;
+      line-height: 28px;
+      color: $Off_White;
+      font-weight: bold;
+    }
+  }
+}
+</style>
 <style lang="scss" scoped>
 .header__box {
   margin-bottom: 102px;
-  .circle__orange {
-    position: absolute;
-    background-color: $Secondary;
-    border-radius: 50%;
-    &1 {
-      @media (max-width: 576px) {
-        display: none !important;
-      }
-      width: 280px;
-      height: 280px;
-      left: -40px;
-      top: -50px;
-      .logo {
-        position: absolute;
-        left: 80px;
-        top: 95px;
-      }
-    }
-    &2 {
-      width: 64px;
-      height: 64px;
-      top: 98px;
-      right: 48px;
-      cursor: pointer;
-      > i {
-        color: $Off_White;
-        font-size: 25px;
-        line-height: 64px;
-      }
-      .circle__red {
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        background-color: $Error;
-        position: absolute;
-        top: -7px;
-        right: -7px;
-        line-height: 28px;
-        color: $Off_White;
-        font-weight: bold;
-      }
-    }
-  }
   .slot {
     position: absolute;
     &__middle {

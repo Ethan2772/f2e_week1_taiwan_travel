@@ -52,12 +52,29 @@
           </div>
         </div>
       </template>
+      <template #bottomRight>
+        <router-link :to="{ name: 'MapMode' }">
+          <div
+            class="
+              button
+              d-flex
+              justify-content-center
+              align-items-center
+              rounded-circle
+              bg-white
+              shadow
+            "
+          >
+            <i class="bi bi-map" style="font-size: 22px"></i>
+          </div>
+        </router-link>
+      </template>
     </Header>
     <div class="container">
       <div class="row mx-lg-5">
         <router-link
           v-for="item in data"
-          :key=Object.values(item)[0]
+          :key="Object.values(item)[0]"
           :to="{ name: 'Tourism', params: { id: Object.values(item)[0] } }"
           class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4"
         >
@@ -69,21 +86,7 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
-.title {
-  color: $Off_White;
-  cursor: default;
-  font-family: Noto Serif JP;
-  &__chinese {
-    font-size: 96px;
-    font-weight: bold;
-  }
-  &__english {
-    font-size: 32px;
-    letter-spacing: 0.4em;
-    margin-right: -0.4em;
-  }
-}
+<style lang="scss">
 .input__select {
   margin-right: 20px;
   font-weight: bold;
@@ -133,6 +136,39 @@
   border-radius: 40px;
   background-color: $Primary;
   font-size: 22px;
+}
+.button {
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  &:hover .bi {
+    transform: scale(1.4);
+  }
+  .bi {
+    transform: scale(1);
+    transition: transform 0.4s ease;
+    color: $Title_Active;
+  }
+}
+a {
+  text-decoration: none;
+  color: $Title_Active;
+}
+</style>
+<style lang="scss" scoped>
+.title {
+  color: $Off_White;
+  cursor: default;
+  font-family: Noto Serif JP;
+  &__chinese {
+    font-size: 96px;
+    font-weight: bold;
+  }
+  &__english {
+    font-size: 32px;
+    letter-spacing: 0.4em;
+    margin-right: -0.4em;
+  }
 }
 </style>
 
@@ -254,7 +290,7 @@ export default {
       const url = `https://ptx.transportdata.tw/MOTC/v2/Tourism/${this.selectType.en}/${this.selectCity.value}`;
       return this.axios.get(url, {
         params: {
-          $select: `${this.selectType.en}ID, ${this.selectType.en}Name, Address, Picture, Description, Phone`,
+          $select: `${this.selectType.en}ID, ${this.selectType.en}Name, Address, Picture, Description, Phone, Position`,
           $skip: this.data.length,
           $top: this.NUM_OF_PER_QUERY,
           $format: "JSON",
