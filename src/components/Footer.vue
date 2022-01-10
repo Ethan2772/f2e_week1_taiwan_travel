@@ -135,7 +135,7 @@
         </svg>
       </div>
       <div class="button button__up button__up__icon" @click="scrollTop">
-        <i class="bi bi-arrow-up-circle"></i>
+        <i class="bi bi-arrow-up-circle text-white"></i>
       </div>
       <div class="button button__up button__up__text" @click="scrollTop">
         TOP

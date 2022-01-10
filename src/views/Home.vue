@@ -176,7 +176,7 @@ a {
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import Card from "@/components/Card.vue";
-import { debounce } from "debounce";
+import _ from "lodash";
 
 export default {
   name: "Home",
@@ -247,7 +247,7 @@ export default {
       ],
       data: [],
       containerOffsetHeight: 0,
-      handleDebounceScroll: null,
+      handleThrottleScroll: null,
     };
   },
   created() {
@@ -262,14 +262,14 @@ export default {
     };
 
     readSearchHistory();
-    this.handleDebounceScroll = debounce(this.lazyLoading, 250);
-    window.addEventListener("scroll", this.handleDebounceScroll);
+    this.handleThrottleScroll = _.throttle(this.lazyLoading, 250);
+    window.addEventListener("scroll", this.handleThrottleScroll);
   },
   mounted() {
     this.search();
   },
   beforeDestroy() {
-    window.removeEventListener("scroll", this.handleDebounceScroll);
+    window.removeEventListener("scroll", this.handleThrottleScroll);
   },
   methods: {
     async search() {

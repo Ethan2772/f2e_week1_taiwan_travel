@@ -11,10 +11,19 @@
           />
         </div>
       </div>
-      <div class="circle__orange circle__orange2 shadow">
-        <i class="bi bi-flag"></i>
-        <div class="circle__red">{{ saveItems }}</div>
-      </div>
+      <router-link
+        :to="{ name: 'Collection' }"
+        v-slot="{ isExactActive, navigate }"
+      >
+        <div
+          class="circle__orange circle__orange2 shadow"
+          @click="navigate"
+          v-show="!isExactActive"
+        >
+          <i class="bi bi-flag"></i>
+          <div class="circle__red">{{ saveItems }}</div>
+        </div>
+      </router-link>
     </div>
     <l-map
       style="width: 100vw; height: 100vh; z-index: 1000"
@@ -25,14 +34,20 @@
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors'
       ></l-tile-layer>
-      <l-marker :lat-lng="markerLatLng"></l-marker>
+      <l-marker
+        v-for="(item, index) in data"
+        :key="Object.values(item)[0]"
+        :lat-lng="[item.Position.PositionLat, item.Position.PositionLon]"
+        @click="moveToItem(index)"
+      >
+        <l-tooltip @click="moveToItem(index)">{{
+          Object.values(item)[1]
+        }}</l-tooltip>
+      </l-marker>
     </l-map>
     <div class="fixed-bottom" style="margin-bottom: 60px; z-index: 1001">
-      <div
-        class="input__group d-flex align-items-center"
-        style="padding-left: 200px; padding-bottom: 26px"
-      >
-        <div class="input__select">
+      <div class="input__group__search position-absolute translate-middle-y">
+        <div class="input__select d-inline-block">
           <select
             v-model="selectCity"
             name="cities"
@@ -54,7 +69,7 @@
             </optgroup>
           </select>
         </div>
-        <div class="input__select">
+        <div class="input__select d-inline-block">
           <select
             v-model="selectType"
             name="types"
@@ -67,39 +82,42 @@
           </select>
         </div>
         <div
-          class="button-search d-flex align-items-center shadow"
-          style="margin-right: 40vw"
+          class="button-search d-inline-flex align-items-center shadow"
           @click="search"
         >
           <i class="bi bi-search text-white mx-auto"></i>
         </div>
-        <router-link :to="{ name: 'Home' }">
-          <div
-            class="
-              button
-              d-flex
-              justify-content-center
-              align-items-center
-              rounded-circle
-              bg-white
-              shadow
-            "
-          >
-            <i class="bi bi-list-ul" style="font-size: 22px"></i>
-          </div>
-        </router-link>
       </div>
+      <router-link :to="{ name: 'Home' }">
+        <div
+          class="
+            button button__list__mode
+            d-flex
+            justify-content-center
+            align-items-center
+            rounded-circle
+            bg-white
+            shadow
+            position-absolute
+            translate-middle-y
+          "
+        >
+          <i class="bi bi-list-ul" style="font-size: 22px"></i>
+        </div>
+      </router-link>
       <div
         class="scrollBar"
+        style="transform: scale(0.8)"
         :style="{ marginLeft: marginL + 'px' }"
-        @mousewheel="scrollItems"
+        @mousewheel="(marginL += $event.wheelDeltaY), handleThrottleScroll()"
       >
         <div class="d-flex mx-auto" style="width: 245px">
           <router-link
-            v-for="item in data"
+            v-for="(item, index) in data"
             :key="Object.values(item)[0]"
             :to="{ name: 'Tourism', params: { id: Object.values(item)[0] } }"
-            style="margin-right: 20px"
+            style="margin-right: 20px; transition: transform 0.4s ease-in-out"
+            :class="{ zoomIn: cardIndex == index }"
           >
             <Card :item="item" />
           </router-link>
@@ -111,8 +129,9 @@
 
 <script>
 import Card from "@/components/Card.vue";
-import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
+import { LMap, LTileLayer, LMarker, LTooltip } from "vue2-leaflet";
 import { Icon } from "leaflet";
+import _ from "lodash";
 
 export default {
   name: "mapMode",
@@ -121,11 +140,13 @@ export default {
     LMap,
     LTileLayer,
     LMarker,
+    LTooltip,
   },
   data() {
     return {
       NUM_OF_PER_QUERY: 20,
-      CARD_WIDTH_AND_PEDDING: 530,
+      CARD_WIDTH_AND_PEDDING: -424,
+      data: [],
       marginL: 0,
       selectCity: { ch: "台南市", en: "Tainan", value: "Tainan" },
       selectType: { ch: "美食", en: "Restaurant" },
@@ -184,18 +205,25 @@ export default {
         { ch: "美食", en: "Restaurant" },
         { ch: "旅宿", en: "Hotel" },
       ],
-      data: [],
     };
   },
   computed: {
     saveItems() {
       return this.$store.getters.conutCollection;
     },
-    index() {
-      return this.marginL / -530;
+    cardIndex() {
+      if (this.marginL > 0) {
+        return 0;
+      } else if (
+        this.marginL <=
+        this.data.length * this.CARD_WIDTH_AND_PEDDING
+      ) {
+        return this.data.length - 1;
+      }
+      return Math.floor((this.marginL - 212) / this.CARD_WIDTH_AND_PEDDING);
     },
     markerLatLng() {
-      const item = this.data[this.index];
+      const item = this.data[this.cardIndex];
       if (item) {
         return [item.Position.PositionLat, item.Position.PositionLon];
       } else {
@@ -216,6 +244,7 @@ export default {
 
     readSearchHistory();
     this.reloadLMarkerIcon();
+    this.handleThrottleScroll = _.throttle(this.checkScroll, 250);
   },
   mounted() {
     this.search();
@@ -260,19 +289,47 @@ export default {
         shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
       });
     },
-    scrollItems($event) {
-      if ($event.wheelDelta > 0) {
-        this.marginL += this.CARD_WIDTH_AND_PEDDING;
-      } else {
-        this.marginL -= this.CARD_WIDTH_AND_PEDDING;
+    moveToItem(index) {
+      this.marginL = index * this.CARD_WIDTH_AND_PEDDING - 212;
+    },
+    async checkScroll() {
+      if (this.marginL > 0) {
+        this.marginL = 0;
+      } else if (
+        this.marginL <
+        this.data.length * this.CARD_WIDTH_AND_PEDDING
+      ) {
+        this.marginL = this.data.length * this.CARD_WIDTH_AND_PEDDING;
+      }
+      if (this.cardIndex >= this.data.length - 4) {
+        const response = await this.getData();
+        this.data = this.data.concat(response.data);
       }
     },
+    handleThrottleScroll() {},
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.input__group__search {
+  left: 15%;
+  top: -10%;
+  @media (max-width: 576px) {
+    left: 5%;
+  }
+}
+.button__list__mode {
+  right: 15%;
+  top: -10%;
+  @media (max-width: 576px) {
+    right: 5%;
+  }
+}
 .scrollBar {
   transition: margin 0.4s ease;
+}
+.zoomIn {
+  transform: scale(1.1);
 }
 </style>
