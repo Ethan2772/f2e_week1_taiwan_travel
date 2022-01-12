@@ -18,7 +18,7 @@ export default new Vuex.Store({
   mutations: {
     toggleCard(state, card) {
       const index = state.collection.findIndex(
-        (collectCard) => collectCard.ID === card.ID
+        (collectCard) => Object.values(collectCard)[0] === Object.values(card)[0]
       );
       if (index !== -1) {
         state.collection.splice(index, 1);

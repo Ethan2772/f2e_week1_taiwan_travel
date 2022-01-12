@@ -33,12 +33,12 @@ Vue.mixin({
       }
     },
     toggleColect(card) {
-      this.isCollected(card) ? del(card.ID) : set(card.ID, card);
+      this.isCollected(card) ? del(Object.values(card)[0]) : set(Object.values(card)[0], card);
       this.$store.commit("toggleCard", card);
     },
     isCollected(card) {
       let boolean = this.$store.getters.getCollection.find(
-        (collectCard) => collectCard.ID === card.ID
+        (collectCard) => Object.values(collectCard)[0] === Object.values(card)[0]
       );
       return boolean ? true : false;
     },
