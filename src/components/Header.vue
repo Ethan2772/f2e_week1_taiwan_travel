@@ -53,11 +53,8 @@
     <div class="slot slot__middle">
       <slot name="middle" />
     </div>
-    <div class="slot slot__bottomCenter">
-      <slot name="bottomCenter" />
-    </div>
-    <div class="slot slot__bottomRight">
-      <slot name="bottomRight" />
+    <div class="slot slot__bottom">
+      <slot name="bottom" />
     </div>
   </div>
 </template>
@@ -143,16 +140,9 @@ export default {
       height: 120px;
       top: 140px;
     }
-    &__bottomCenter {
-      left: 50%;
-      transform: translateX(-50%);
-      height: 49px;
-      bottom: -25px;
-    }
-    &__bottomRight {
-      right: 15%;
-      height: 60px;
-      bottom: -30px;
+    &__bottom {
+      position: relative;
+      transform: translateY(-50%);
     }
   }
   .blur {
