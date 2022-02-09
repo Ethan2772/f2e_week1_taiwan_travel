@@ -45,9 +45,9 @@
         }}</l-tooltip>
       </l-marker>
     </l-map>
-    <div class="fixed-bottom" style="margin-bottom: 60px; z-index: 1001">
+    <div class="fixed-bottom controlBar" style="z-index: 1001">
       <div class="input__group__search position-absolute translate-middle-y">
-        <div class="input__select d-inline-block">
+        <div class="input__select input__select__city">
           <select
             v-model="selectCity"
             name="cities"
@@ -315,6 +315,10 @@ export default {
 .input__group__search {
   left: 15%;
   top: -10%;
+  @media (max-width: 800px) {
+    top: -18%;
+    text-align: left;
+  }
   @media (max-width: 576px) {
     left: 5%;
   }
@@ -324,6 +328,13 @@ export default {
   top: -10%;
   @media (max-width: 576px) {
     right: 5%;
+  }
+}
+.controlBar {
+  margin-bottom: 60px;
+  @media (max-width: 576px) {
+    margin-bottom: 0;
+    transform: scale(0.6);
   }
 }
 .scrollBar {

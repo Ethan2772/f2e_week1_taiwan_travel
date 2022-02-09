@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "precache-manifest.0c90f0151eadf5a29678b351b7ffe34c.js"
+  "/precache-manifest.ddbeac22d8b03be291260443fc62de58.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "f2e_week1_taiwan_travel"});

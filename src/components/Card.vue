@@ -52,6 +52,7 @@
     border-radius: 15px;
     position: relative;
     overflow: hidden;
+    transform: translateZ(0);
     background-color: #e0e0e0;
   }
   &__pin {

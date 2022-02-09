@@ -8,9 +8,9 @@
           <span class="title__chinese" />
         </div>
       </template>
-      <template #bottomCenter>
-        <div class="input__group d-flex">
-          <div class="input__select">
+      <template #bottom>
+        <div class="input__group position-absolute translate-middle">
+          <div class="input__select input__select__city">
             <select
               v-model="selectCity"
               name="cities"
@@ -32,7 +32,7 @@
               </optgroup>
             </select>
           </div>
-          <div class="input__select">
+          <div class="input__select input__select__type d-inline-block">
             <select
               v-model="selectType"
               name="types"
@@ -45,41 +45,46 @@
             </select>
           </div>
           <div
-            class="button-search d-flex align-items-center shadow"
+            class="button-search d-inline-flex align-items-center shadow"
             @click="search"
           >
             <i class="bi bi-search text-white mx-auto"></i>
           </div>
         </div>
-      </template>
-      <template #bottomRight>
-        <router-link :to="{ name: 'MapMode' }">
-          <div
-            class="
-              button
-              d-flex
-              justify-content-center
-              align-items-center
-              rounded-circle
-              bg-white
-              shadow
-            "
-          >
-            <i class="bi bi-map" style="font-size: 22px"></i>
-          </div>
-        </router-link>
+        <div
+          class="btn__map__mode position-absolute translate-middle"
+        >
+          <router-link :to="{ name: 'MapMode' }">
+            <div
+              class="
+                button
+                d-flex
+                justify-content-center
+                align-items-center
+                rounded-circle
+                bg-white
+                shadow
+              "
+            >
+              <i class="bi bi-map" style="font-size: 22px"></i>
+            </div>
+          </router-link>
+        </div>
       </template>
     </Header>
     <div class="container">
       <div class="row mx-lg-5">
-        <router-link
+        <div
           v-for="item in data"
           :key="Object.values(item)[0]"
-          :to="{ name: 'Tourism', params: { id: Object.values(item)[0] } }"
           class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4"
         >
-          <Card :item="item" />
-        </router-link>
+          <router-link
+            :to="{ name: 'Tourism', params: { id: Object.values(item)[0] } }"
+          >
+            <Card :item="item" />
+          </router-link>
+        </div>
       </div>
     </div>
     <Footer />
@@ -87,9 +92,32 @@
 </template>
 
 <style lang="scss">
+.input__group {
+  left: 50%;
+  @media (max-width: 800px) {
+    text-align: left;
+    left: 25%;
+  }
+  @media (max-width: 576px) {
+    left: 34%;
+  }
+}
+.btn__map__mode {
+  right: 12%;
+  @media (max-width: 576px) {
+    right: -2%;
+  }
+}
 .input__select {
   margin-right: 20px;
   font-weight: bold;
+  &__city {
+    display: inline-block;
+    @media (max-width: 800px) {
+      display: block;
+      margin-bottom: 6px;
+    }
+  }
   .custom-selector {
     height: 49px;
     border-radius: 40px;
